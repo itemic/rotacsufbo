@@ -19,14 +19,13 @@ public class Main {
         System.out.println("b");
         FileExplorer fe = new FileExplorer();
         // can we make it so we don't specify this??
-        File root = new File("/Users/terran/Desktop/testfile");
+        File root = new File("C:\\Users\\Terran\\Projects\\FindFood");
         fe.traverseFolder(root);
         for (File f: fe.getFiles()) {
             System.out.println(f.getName());
             CompilationUnit unit = JavaParser.parse(f);
 
             unit.accept(new EncodingVisitor(), null);
-            unit.accept(new RenamingVisitor(), null);
 
             // experiment with adding random generated comments
             unit.findAll(FieldDeclaration.class).stream().forEach(
