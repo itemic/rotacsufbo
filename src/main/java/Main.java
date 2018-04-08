@@ -1,10 +1,12 @@
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.comments.LineComment;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
+import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
@@ -15,6 +17,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.locks.Condition;
 
 public class Main {
@@ -23,30 +26,26 @@ public class Main {
         System.out.println("b");
         FileExplorer fe = new FileExplorer();
         // can we make it so we don't specify this??
-        File root = new File("C:\\Users\\Terran\\IdeaProjects\\Bepis");
+        File root = new File("/Users/terran/Desktop/testfile");
         fe.traverseFolder(root);
-        for (File f: fe.getFiles()) {
+        for (File f : fe.getFiles()) {
             System.out.println(f.getName());
             CompilationUnit unit = JavaParser.parse(f);
+            SwitchCreator sc = new SwitchCreator();
+            sc.collectStatements(unit);
+            sc.createSwitch(unit);
+//            unit.accept(new EncodingVisitor(), null);
 
-            unit.accept(new EncodingVisitor(), null);
+//            List<Node> n = unit.getChildNodes();
+//            for (Node node : n) {
+//                System.out.println(node.getBegin() + " " + node.toString());
+//            }
+//
 
-            List<IfStmt> nodes = unit.findAll(IfStmt.class);
-            for (IfStmt i: nodes) {
-                System.out.println("ah there be one of these things @ "+ i.getBegin());
-            }
 
-            // experiment with adding random generated comments
-            unit.findAll(FieldDeclaration.class).stream().forEach(
-                    c -> {
-                        c.setComment(new LineComment("this is actually very important!"));
-                    }
-            );
-            System.out.println(unit);
         }
 
     }
-
 
 
 }
