@@ -12,6 +12,7 @@ import java.util.Optional;
 
 //TODO: if it says RETURN do nothing!
 //TODO: fix methods that have to return things!
+//TODO: Numbering strategies
 
 public class ClassFlattener {
     private ClassOrInterfaceDeclaration classDec;
