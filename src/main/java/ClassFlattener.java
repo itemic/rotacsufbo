@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+//TODO: if it says RETURN do nothing!
+//TODO: fix methods that have to return things!
+
 public class ClassFlattener {
     private ClassOrInterfaceDeclaration classDec;
 
@@ -39,7 +42,11 @@ public class ClassFlattener {
                     statement.add(s.toString());
                 } else {
                     for (VariableDeclarator v: varDeclarators) {
-                        String init = v.getType() + " " + v.getName() + "= 0;"; //only for ints
+                        String init = v.getType() + " " + v.getName() + " = " + DefaultsHelper.getDefault(v.getType().toString()) +";";
+//                        String init = v.getType() + " " + v.getName() + " = 0;";
+
+                        System.out.println(v.getType());
+
                         declaration.add(init);
                         statement.add(v.toString() + ";");
                     }
