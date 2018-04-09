@@ -26,7 +26,7 @@ public class Main {
         System.out.println("b");
         FileExplorer fe = new FileExplorer();
         // can we make it so we don't specify this??
-        File root = new File("/Users/terran/Desktop/testfile");
+        File root = new File("C:\\Users\\Terran\\IdeaProjects\\Bepis\\src\\Main.java");
         fe.traverseFolder(root);
         for (File f : fe.getFiles()) {
             System.out.println(f.getName());

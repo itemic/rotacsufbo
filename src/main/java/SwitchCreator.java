@@ -7,13 +7,14 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.stmt.*;
-import com.sun.org.apache.xpath.internal.operations.Variable;
-import com.sun.tools.javap.JavapFileManager;
-import javafx.embed.swt.SWTFXUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+//TODO: Support for multiple methods
+//TODO: Support for multiple types
+//TODO: Refactor stuff
 
 public class SwitchCreator {
     // RIGHT NOW ONLY WORKS FOR CLASSES WITH SINGLE METHODS!
