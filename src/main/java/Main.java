@@ -41,7 +41,7 @@ public class Main {
 //            sc.collectStatements(unit);
 //            sc.createSwitch(unit);
 //            unit.accept(new EncodingVisitor(), null);
-
+//            System.out.println(unit);
 //            List<Node> n = unit.getChildNodes();
 //            for (Node node : n) {
 //                System.out.println(node.getBegin() + " " + node.toString());
