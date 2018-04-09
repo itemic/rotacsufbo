@@ -31,9 +31,16 @@ public class Main {
         for (File f : fe.getFiles()) {
             System.out.println(f.getName());
             CompilationUnit unit = JavaParser.parse(f);
-            SwitchCreator sc = new SwitchCreator();
-            sc.collectStatements(unit);
-            sc.createSwitch(unit);
+
+            for(ClassOrInterfaceDeclaration cls: unit.findAll(ClassOrInterfaceDeclaration.class)) {
+                ClassFlattener cf = new ClassFlattener(cls);
+                cf.createStatements();
+                cf.createSwitch();
+            }
+
+//            SwitchCreator sc = new SwitchCreator();
+//            sc.collectStatements(unit);
+//            sc.createSwitch(unit);
 //            unit.accept(new EncodingVisitor(), null);
 
 //            List<Node> n = unit.getChildNodes();
