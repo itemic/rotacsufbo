@@ -5,6 +5,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.stmt.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,14 +44,11 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
             for (Statement stmt : statements.get(methods.indexOf(m))) {
                 SwitchEntryStmt entry = new SwitchEntryStmt();
                 NodeList<Statement> entryStatements = new NodeList<>();
-                System.out.println("parsing: " + switchToValue);
                 entry.setLabel(JavaParser.parseExpression("\"" + switchToValue + "\""));
                 switchToValueIndex++;
                 switchToValue = idList.get(switchToValueIndex);
-                System.out.println(switchToValueIndex + "/" + idList.size() + "====" + statements.size());
 
                 entryStatements.add(stmt);
-                System.out.println("Adding: " + stmt + stmt.isReturnStmt());
 
                 // Compiler will pick up dead code if there's something after a return;
                 if (!stmt.isReturnStmt()) {
@@ -64,9 +62,12 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
                 entries.add(entry);
             }
 
+            //TODO: Add random switch statements.
+
             // Set a default one to break out of the loop
             NodeList<Statement> defaultSwitch = new NodeList<>();
             defaultSwitch.add(JavaParser.parseStatement(WHILE_VARIABLE + " = false;"));
+            Collections.shuffle(entries); // so it's not, add this BEFORE the default in case
             entries.add(new SwitchEntryStmt(null, defaultSwitch));
             switchStatement.setEntries(entries);
 
@@ -83,7 +84,6 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
             blockStatement.addStatement(JavaParser.parseStatement("boolean " + WHILE_VARIABLE + " = true;"));
             blockStatement.addStatement(whileStatement);
 
-            System.out.println("This method " + m + "returns a type + " + m.getType());
 
             // Have to return something otherwise it will be upset!
             if (!m.getTypeAsString().equals("void")) {

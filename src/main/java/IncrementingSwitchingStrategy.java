@@ -58,7 +58,6 @@ public class IncrementingSwitchingStrategy implements SwitchingStrategy {
             blockStatement.addStatement(JavaParser.parseStatement("boolean " + WHILE_VARIABLE + " = true;"));
             blockStatement.addStatement(whileStatement);
 
-            System.out.println("This method " + m + "returns a type + " + m.getType());
 
             // Have to return something otherwise it will be upset!
             if (!m.getTypeAsString().equals("void")) {
