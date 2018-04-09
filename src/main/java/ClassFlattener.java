@@ -18,8 +18,8 @@ public class ClassFlattener {
     private ClassOrInterfaceDeclaration classDec;
 
     private List<MethodDeclaration> methods;
-    private List<List<String>> statements = new ArrayList<>();
-    private List<List<String>> declarations = new ArrayList<>();
+    private List<List<Statement>> statements = new ArrayList<>();
+    private List<List<Statement>> declarations = new ArrayList<>();
     public final String SWITCH_SELECTOR = "switchOnThis";
     public final String WHILE_VARIABLE = "infiniteLoop";
 
@@ -31,8 +31,8 @@ public class ClassFlattener {
     public void createStatements() {
         for (MethodDeclaration m: methods) {
             // Create statement/declaration lists
-            List<String> statement = new ArrayList<>();
-            List<String> declaration = new ArrayList<>();
+            List<Statement> statement = new ArrayList<>();
+            List<Statement> declaration = new ArrayList<>();
 
             Optional<BlockStmt> body = m.getBody();
             NodeList<Statement> stmts = body.get().getStatements();
@@ -40,16 +40,15 @@ public class ClassFlattener {
             for (Statement s: stmts) {
                 List<VariableDeclarator> varDeclarators = s.findAll(VariableDeclarator.class);
                 if (varDeclarators.isEmpty()) {
-                    statement.add(s.toString());
+                    statement.add(s);
                 } else {
                     for (VariableDeclarator v: varDeclarators) {
-                        String init = v.getType() + " " + v.getName() + " = " + DefaultsHelper.getDefault(v.getType().toString()) +";";
-//                        String init = v.getType() + " " + v.getName() + " = 0;";
+                        String def = v.getType() + " " + v.getName() + " = " + DefaultsHelper.getDefault(v.getType().toString()) +";";
+                        String use = v.toString() + ";";
 
-                        System.out.println(v.getType());
 
-                        declaration.add(init);
-                        statement.add(v.toString() + ";");
+                        declaration.add(JavaParser.parseStatement(def));
+                        statement.add(JavaParser.parseStatement(use));
                     }
                 }
             }
@@ -65,16 +64,15 @@ public class ClassFlattener {
             NodeList<SwitchEntryStmt> entries = new NodeList<>();
             // This value can be changed based on the strategy of randomization
             int switchToValue = 0;
-            System.out.println(methods.indexOf(m));
 
-            for (String stmt: statements.get(methods.indexOf(m))) {
+            for (Statement stmt: statements.get(methods.indexOf(m))) {
                 SwitchEntryStmt entry = new SwitchEntryStmt();
                 NodeList<Statement> entryStatements = new NodeList<>();
 
                 entry.setLabel(JavaParser.parseExpression(switchToValue + ""));
                 switchToValue++;
 
-                entryStatements.add(JavaParser.parseStatement(stmt));
+                entryStatements.add(stmt);
                 entryStatements.add(JavaParser.parseStatement(SWITCH_SELECTOR + "++;"));
                 entryStatements.add(JavaParser.parseStatement("break;"));
 
@@ -95,8 +93,8 @@ public class ClassFlattener {
 
             BlockStmt blockStatement = new BlockStmt();
 
-            for (String d: declarations.get(methods.indexOf(m))) {
-                blockStatement.addStatement(JavaParser.parseStatement(d));
+            for (Statement d: declarations.get(methods.indexOf(m))) {
+                blockStatement.addStatement(d);
             }
             blockStatement.addStatement(JavaParser.parseStatement("int " + SWITCH_SELECTOR + " = 0;"));
             blockStatement.addStatement(JavaParser.parseStatement("boolean " + WHILE_VARIABLE + " = true;"));

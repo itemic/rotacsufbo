@@ -23,7 +23,6 @@ import java.util.concurrent.locks.Condition;
 public class Main {
 
     public static void main(String[] args) throws URISyntaxException, FileNotFoundException {
-        System.out.println("b");
         FileExplorer fe = new FileExplorer();
         // can we make it so we don't specify this??
         File root = new File("C:\\Users\\Terran\\IdeaProjects\\Bepis\\src\\Main.java");
