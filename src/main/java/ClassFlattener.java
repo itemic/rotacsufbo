@@ -73,8 +73,14 @@ public class ClassFlattener {
                 switchToValue++;
 
                 entryStatements.add(stmt);
-                entryStatements.add(JavaParser.parseStatement(SWITCH_SELECTOR + "++;"));
-                entryStatements.add(JavaParser.parseStatement("break;"));
+                System.out.println("Adding: " + stmt + stmt.isReturnStmt());
+
+                // Compiler will pick up dead code if there's something after a return;
+                if (!stmt.isReturnStmt()) {
+                    entryStatements.add(JavaParser.parseStatement(SWITCH_SELECTOR + "++;"));
+                    entryStatements.add(JavaParser.parseStatement("break;"));
+                }
+
 
                 entry.setStatements(entryStatements);
 
@@ -99,6 +105,15 @@ public class ClassFlattener {
             blockStatement.addStatement(JavaParser.parseStatement("int " + SWITCH_SELECTOR + " = 0;"));
             blockStatement.addStatement(JavaParser.parseStatement("boolean " + WHILE_VARIABLE + " = true;"));
             blockStatement.addStatement(whileStatement);
+
+            System.out.println("This method " + m + "returns a type + " + m.getType());
+
+            // Have to return something otherwise it will be upset!
+            if (!m.getTypeAsString().equals("void")) {
+                String returnNothing = "return " + DefaultsHelper.getDefault(m.getTypeAsString()) + ";";
+                blockStatement.addStatement(JavaParser.parseStatement(returnNothing));
+            }
+
             m.setBody(blockStatement);
             System.out.println(classDec);
 
