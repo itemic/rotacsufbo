@@ -17,7 +17,6 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
         for (MethodDeclaration m: methods) {
             List<String> randomIdList = new ArrayList<>();
             for (Statement s: statements.get(methods.indexOf(m))) {
-                System.out.println("we");
                 randomIdList.add(UUID.randomUUID().toString());
             }
             randomIdList.add(UUID.randomUUID().toString()); //this one goes nowhere
@@ -34,7 +33,7 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
             switchStatement.setSelector(JavaParser.parseExpression(SWITCH_SELECTOR));
             NodeList<SwitchEntryStmt> entries = new NodeList<>();
             // This value can be changed based on the strategy of randomization
-            System.out.println(uuidList);
+//            System.out.println(uuidList);
             List<String> idList = uuidList.get(methods.indexOf(m));
             int switchToValueIndex = 0;
             String startSwitch = idList.get(switchToValueIndex);
@@ -63,6 +62,20 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
             }
 
             //TODO: Add random switch statements.
+            for (int i = 0; i < 5; i++) {
+                SwitchEntryStmt entry = new SwitchEntryStmt();
+                NodeList<Statement> entryStatements = new NodeList<>();
+                entry.setLabel(JavaParser.parseExpression("\"" + UUID.randomUUID().toString() + "\""));
+                // Have some sort of dummy code here.
+
+
+                entryStatements.add(JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + UUID.randomUUID().toString() + "\";"));
+                entryStatements.add(JavaParser.parseStatement("break;"));
+
+                entry.setStatements(entryStatements);
+                entries.add(entry);
+
+            }
 
             // Set a default one to break out of the loop
             NodeList<Statement> defaultSwitch = new NodeList<>();
@@ -92,7 +105,7 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
             }
 
             m.setBody(blockStatement);
-            System.out.println(cls);
+//            System.out.println(cls);
         }
     }
 }

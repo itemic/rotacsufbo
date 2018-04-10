@@ -37,18 +37,9 @@ public class Main {
                 cf.createSwitch();
             }
 
-//            SwitchCreator sc = new SwitchCreator();
-//            sc.collectStatements(unit);
-//            sc.createSwitch(unit);
-//            unit.accept(new EncodingVisitor(), null);
-//            System.out.println(unit);
-//            List<Node> n = unit.getChildNodes();
-//            for (Node node : n) {
-//                System.out.println(node.getBegin() + " " + node.toString());
-//            }
-//
 
 
+            System.out.println(unit);
         }
 
     }
