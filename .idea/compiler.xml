@@ -17,10 +17,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Etacsufbo" />
+        <module name="Rotacsufbo" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Etacsufbo" target="1.8" />
+    <bytecodeTargetLevel target="9">
+      <module name="Rotacsufbo" target="1.9" />
     </bytecodeTargetLevel>
   </component>
 </project>
