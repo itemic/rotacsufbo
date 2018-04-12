@@ -13,7 +13,6 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -23,15 +22,13 @@ import java.util.concurrent.locks.Condition;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, FileNotFoundException {
+    public static void main(String[] args) throws URISyntaxException, FileNotFoundException {
         FileExplorer fe = new FileExplorer();
         // can we make it so we don't specify this??
         File root = new File("C:\\Users\\Terran\\IdeaProjects\\Bepis\\src\\Main.java");
         fe.traverseFolder(root);
-        for (File f : fe.getFiles()) {
-            System.out.println(f.getName());
-            LayoutObfuscator lo = new LayoutObfuscator();
-            System.out.println(lo.IntoALine(f));
+//        for (File f : fe.getFiles()) {
+//            System.out.println(f.getName());
 //            CompilationUnit unit = JavaParser.parse(f);
 //
 //            for(ClassOrInterfaceDeclaration cls: unit.findAll(ClassOrInterfaceDeclaration.class)) {
@@ -42,8 +39,12 @@ public class Main {
 //
 //
 //
+//
 //            System.out.println(unit);
-        }
+//        }
+
+        OpaquePredator op = new OpaquePredator();
+        System.out.println(op.makeTrueExpression("bepis"));
 
     }
 
