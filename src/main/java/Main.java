@@ -13,6 +13,7 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -22,24 +23,26 @@ import java.util.concurrent.locks.Condition;
 
 public class Main {
 
-    public static void main(String[] args) throws URISyntaxException, FileNotFoundException {
+    public static void main(String[] args) throws IOException, FileNotFoundException {
         FileExplorer fe = new FileExplorer();
         // can we make it so we don't specify this??
         File root = new File("C:\\Users\\Terran\\IdeaProjects\\Bepis\\src\\Main.java");
         fe.traverseFolder(root);
         for (File f : fe.getFiles()) {
             System.out.println(f.getName());
-            CompilationUnit unit = JavaParser.parse(f);
-
-            for(ClassOrInterfaceDeclaration cls: unit.findAll(ClassOrInterfaceDeclaration.class)) {
-                ClassFlattener cf = new ClassFlattener(cls);
-                cf.createStatements();
-                cf.createSwitch();
-            }
-
-
-
-            System.out.println(unit);
+            LayoutObfuscator lo = new LayoutObfuscator();
+            System.out.println(lo.IntoALine(f));
+//            CompilationUnit unit = JavaParser.parse(f);
+//
+//            for(ClassOrInterfaceDeclaration cls: unit.findAll(ClassOrInterfaceDeclaration.class)) {
+//                ClassFlattener cf = new ClassFlattener(cls);
+//                cf.createStatements();
+//                cf.createSwitch();
+//            }
+//
+//
+//
+//            System.out.println(unit);
         }
 
     }
