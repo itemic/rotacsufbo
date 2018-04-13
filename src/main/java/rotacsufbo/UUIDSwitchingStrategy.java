@@ -49,10 +49,27 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
                 switchToValue = idList.get(switchToValueIndex);
                 // put the if statement here, wrap up the statements!
                 IfStmt ifStatement = new IfStmt();
-                ifStatement.setCondition(JavaParser.parseExpression(op.makeTrueExpression("OPAQUES") +""));
-                entryStatements.add(ifStatement);
-                entryStatements.add(stmt);
 
+                // trueFirst or falseFirst?
+                boolean trueFirst = ThreadLocalRandom.current().nextBoolean();
+
+                if (trueFirst) {
+                    ifStatement.setCondition(JavaParser.parseExpression(op.makeTrueExpression("OPAQUES") +""));
+                    Statement sRandom = statements.get(methods.indexOf(m)).get(ThreadLocalRandom.current().nextInt(0, statements.get(methods.indexOf(m)).size()));
+
+                    ifStatement.setThenStmt(stmt);
+                    ifStatement.setElseStmt(sRandom); //wontrun
+                } else {
+                    ifStatement.setCondition(JavaParser.parseExpression(op.makeFalseExpression("OPAQUES") +""));
+                    Statement sRandom = statements.get(methods.indexOf(m)).get(ThreadLocalRandom.current().nextInt(0, statements.get(methods.indexOf(m)).size()));
+
+                    ifStatement.setThenStmt(sRandom); //wontrun
+                    ifStatement.setElseStmt(stmt);
+
+                }
+
+//                entryStatements.add(stmt);
+                entryStatements.add(ifStatement);
                 // Compiler will pick up dead code if there's something after a return;
                 if (!stmt.isReturnStmt()) {
                     entryStatements.add(JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + switchToValue + "\";"));
