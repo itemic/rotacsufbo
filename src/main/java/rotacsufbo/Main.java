@@ -13,7 +13,7 @@ import java.io.IOException;
 public class Main extends Application{
 
     private Stage primaryStage;
-    private BorderPane rootLayout;
+    private static BorderPane rootLayout;
 
     public static void main(String[] args) {
         FileExplorer fe = new FileExplorer();
@@ -72,5 +72,9 @@ public class Main extends Application{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static BorderPane getRoot() {
+        return rootLayout;
     }
 }
