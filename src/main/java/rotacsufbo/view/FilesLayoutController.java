@@ -8,6 +8,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import rotacsufbo.ClassFlattener;
@@ -18,6 +19,10 @@ import java.util.ArrayList;
 
 public class FilesLayoutController {
     private ObservableList<String> sourceFiles;
+
+
+    @FXML
+    private ComboBox<String> filesListComboBox;
 
     @FXML
     private ListView<String> filesListView;
@@ -34,9 +39,9 @@ public class FilesLayoutController {
         }
         sourceFiles = FXCollections.observableArrayList(shortenedFiles);
 
-        filesListView.getItems().addAll(sourceFiles);
+        filesListComboBox.getItems().addAll(sourceFiles);
 
-        filesListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        filesListComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 try {

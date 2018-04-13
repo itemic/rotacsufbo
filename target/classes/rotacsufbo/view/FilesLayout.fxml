@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
 
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rotacsufbo.view.FilesLayoutController">
-   <left>
-      <ListView fx:id="filesListView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </left>
    <center>
       <TextArea fx:id="codeTextArea" prefHeight="400.0" prefWidth="198.0" text="你好世界" BorderPane.alignment="CENTER" />
    </center>
+   <top>
+      <ComboBox fx:id="filesListComboBox" prefHeight="25.0" prefWidth="718.0" BorderPane.alignment="CENTER" />
+   </top>
+   <bottom>
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <buttons>
+          <Button mnemonicParsing="false" text="Someday This Will Do Something Like Export All But Now It's Just Something You Can Click" />
+        </buttons>
+      </ButtonBar>
+   </bottom>
 </BorderPane>
