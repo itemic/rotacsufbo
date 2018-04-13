@@ -7,6 +7,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.stmt.*;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class UUIDSwitchingStrategy implements SwitchingStrategy {
     private List<List<String>> uuidList = new ArrayList<>();
@@ -45,7 +46,7 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
                 entry.setLabel(JavaParser.parseExpression("\"" + switchToValue + "\""));
                 switchToValueIndex++;
                 switchToValue = idList.get(switchToValueIndex);
-
+                // put the if statement here, wrap up the statements!
                 entryStatements.add(stmt);
 
                 // Compiler will pick up dead code if there's something after a return;
@@ -66,8 +67,8 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
                 NodeList<Statement> entryStatements = new NodeList<>();
                 entry.setLabel(JavaParser.parseExpression("\"" + UUID.randomUUID().toString() + "\""));
                 // Have some sort of dummy code here.
-
-
+                Statement sRandom = statements.get(methods.indexOf(m)).get(ThreadLocalRandom.current().nextInt(0, statements.get(methods.indexOf(m)).size()));
+                entryStatements.add(sRandom);
                 entryStatements.add(JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + UUID.randomUUID().toString() + "\";"));
                 entryStatements.add(JavaParser.parseStatement("break;"));
 
