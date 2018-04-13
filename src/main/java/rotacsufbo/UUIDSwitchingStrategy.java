@@ -38,6 +38,7 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
             int switchToValueIndex = 0;
             String startSwitch = idList.get(switchToValueIndex);
             String switchToValue = idList.get(switchToValueIndex);
+            OpaquePredator op = new OpaquePredator();
 
 
             for (Statement stmt : statements.get(methods.indexOf(m))) {
@@ -47,6 +48,9 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
                 switchToValueIndex++;
                 switchToValue = idList.get(switchToValueIndex);
                 // put the if statement here, wrap up the statements!
+                IfStmt ifStatement = new IfStmt();
+                ifStatement.setCondition(JavaParser.parseExpression(op.makeTrueExpression("OPAQUES") +""));
+                entryStatements.add(ifStatement);
                 entryStatements.add(stmt);
 
                 // Compiler will pick up dead code if there's something after a return;
@@ -95,7 +99,6 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
             }
             blockStatement.addStatement(JavaParser.parseStatement("String " + SWITCH_SELECTOR + " = \"" + startSwitch + "\";"));
             blockStatement.addStatement(JavaParser.parseStatement("boolean " + WHILE_VARIABLE + " = true;"));
-            OpaquePredator op = new OpaquePredator();
             // generate array for opaque thing
             String stm = "int[] OPAQUES = new int[]{" + Arrays.toString(op.getOpaques()).substring(1, Arrays.toString(op.getOpaques()).length()-1) + "};";
             blockStatement.addStatement(JavaParser.parseStatement(stm));
