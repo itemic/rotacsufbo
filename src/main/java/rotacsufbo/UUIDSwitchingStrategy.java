@@ -6,10 +6,7 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.stmt.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class UUIDSwitchingStrategy implements SwitchingStrategy {
     private List<List<String>> uuidList = new ArrayList<>();
@@ -97,6 +94,10 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
             }
             blockStatement.addStatement(JavaParser.parseStatement("String " + SWITCH_SELECTOR + " = \"" + startSwitch + "\";"));
             blockStatement.addStatement(JavaParser.parseStatement("boolean " + WHILE_VARIABLE + " = true;"));
+            OpaquePredator op = new OpaquePredator();
+            // generate array for opaque thing
+            String stm = "int[] OPAQUES = new int[]{" + Arrays.toString(op.getOpaques()).substring(1, Arrays.toString(op.getOpaques()).length()-1) + "};";
+            blockStatement.addStatement(JavaParser.parseStatement(stm));
             blockStatement.addStatement(whileStatement);
 
 

@@ -87,6 +87,8 @@ public class SwitchCreator {
                 bs.addStatement(JavaParser.parseStatement("int switcherStatement = 0;"));
                 bs.addStatement(JavaParser.parseStatement("boolean switchKeeper = true;"));
                 bs.addStatement(ws);
+                OpaquePredator op = new OpaquePredator();
+                bs.addStatement(JavaParser.parseStatement("ArrayList<Integer> OPAQUES = " + op.getOpaques() + ";"));
                 m.setBody(bs);
                 System.out.println(cu);
             }
