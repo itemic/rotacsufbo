@@ -56,20 +56,29 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
                 if (trueFirst) {
                     ifStatement.setCondition(JavaParser.parseExpression(op.makeTrueExpression("OPAQUES") +""));
                     Statement sRandom = statements.get(methods.indexOf(m)).get(ThreadLocalRandom.current().nextInt(0, statements.get(methods.indexOf(m)).size()));
+                    Statement correctSwitch = JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + switchToValue + "\";");
+                    Statement incorrectSwitch = JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + UUID.randomUUID().toString() + "\";");
                     BlockStmt wrapperA = new BlockStmt();
                     BlockStmt wrapperB = new BlockStmt();
                     wrapperA.addStatement(stmt);
+                    wrapperA.addStatement(correctSwitch);
                     wrapperB.addStatement(sRandom);
+                    wrapperB.addStatement(incorrectSwitch);
                     ifStatement.setThenStmt(wrapperA);
                     ifStatement.setElseStmt(wrapperB); //wontrun
                 } else {
                     ifStatement.setCondition(JavaParser.parseExpression(op.makeFalseExpression("OPAQUES") +""));
                     Statement sRandom = statements.get(methods.indexOf(m)).get(ThreadLocalRandom.current().nextInt(0, statements.get(methods.indexOf(m)).size()));
+                    Statement correctSwitch = JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + switchToValue + "\";");
+                    Statement incorrectSwitch = JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + UUID.randomUUID().toString() + "\";");
+
                     BlockStmt wrapperA = new BlockStmt();
                     BlockStmt wrapperB = new BlockStmt();
 
                     wrapperA.addStatement(sRandom);
+                    wrapperA.addStatement(incorrectSwitch);
                     wrapperB.addStatement(stmt);
+                    wrapperB.addStatement(correctSwitch);
                     ifStatement.setThenStmt(wrapperA); //wontrun
                     ifStatement.setElseStmt(wrapperB);
 
@@ -80,7 +89,8 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
                 // Compiler will pick up dead code if there's something after a return;
                 if (!stmt.isReturnStmt()) {
 
-                    entryStatements.add(JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + switchToValue + "\";"));
+
+//                    entryStatements.add(JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + switchToValue + "\";"));
                     entryStatements.add(JavaParser.parseStatement("break;"));
                 }
 

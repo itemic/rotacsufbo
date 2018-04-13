@@ -13,6 +13,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import rotacsufbo.ClassFlattener;
 import rotacsufbo.FileExplorer;
+import rotacsufbo.LayoutObfuscator;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -58,9 +59,16 @@ public class FilesLayoutController {
                         ClassFlattener cf = new ClassFlattener(cls);
                         cf.createStatements();
                         cf.createSwitch();
+
                     }
 
                     codeTextArea.setText(cu.toString());
+
+                    ////////////////////////////////////////////////////
+//                    LayoutObfuscator lo = new LayoutObfuscator();
+//                    String oneLiner = lo.intoALine(new File(src + newValue));
+//                    codeTextArea.setText(oneLiner);
+
                     System.out.println(src + newValue);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();

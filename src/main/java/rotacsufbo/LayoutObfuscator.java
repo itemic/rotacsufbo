@@ -8,16 +8,22 @@ import java.io.IOException;
 public class LayoutObfuscator {
 
     //TODO: DOES NOT WORK WITH @ANNOTATIONS
-    public String IntoALine(File javaSource) throws IOException {
+    public String intoALine(File javaSource) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(javaSource));
         StringBuilder oneLineFile = new StringBuilder();
         String line;
         while ((line=br.readLine()) != null) {
             line = line.trim();
-            oneLineFile.append(line);
+            if (line.length() > 0 && line.charAt(0) == '@') {
+                oneLineFile.append(System.lineSeparator() + line + System.lineSeparator());
+            } else {
+                oneLineFile.append(line);
+            }
         }
         br.close();
         return oneLineFile.toString();
     }
+
+
 
 }
