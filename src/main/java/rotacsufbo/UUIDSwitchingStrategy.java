@@ -56,15 +56,22 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
                 if (trueFirst) {
                     ifStatement.setCondition(JavaParser.parseExpression(op.makeTrueExpression("OPAQUES") +""));
                     Statement sRandom = statements.get(methods.indexOf(m)).get(ThreadLocalRandom.current().nextInt(0, statements.get(methods.indexOf(m)).size()));
-
-                    ifStatement.setThenStmt(stmt);
-                    ifStatement.setElseStmt(sRandom); //wontrun
+                    BlockStmt wrapperA = new BlockStmt();
+                    BlockStmt wrapperB = new BlockStmt();
+                    wrapperA.addStatement(stmt);
+                    wrapperB.addStatement(sRandom);
+                    ifStatement.setThenStmt(wrapperA);
+                    ifStatement.setElseStmt(wrapperB); //wontrun
                 } else {
                     ifStatement.setCondition(JavaParser.parseExpression(op.makeFalseExpression("OPAQUES") +""));
                     Statement sRandom = statements.get(methods.indexOf(m)).get(ThreadLocalRandom.current().nextInt(0, statements.get(methods.indexOf(m)).size()));
+                    BlockStmt wrapperA = new BlockStmt();
+                    BlockStmt wrapperB = new BlockStmt();
 
-                    ifStatement.setThenStmt(sRandom); //wontrun
-                    ifStatement.setElseStmt(stmt);
+                    wrapperA.addStatement(sRandom);
+                    wrapperB.addStatement(stmt);
+                    ifStatement.setThenStmt(wrapperA); //wontrun
+                    ifStatement.setElseStmt(wrapperB);
 
                 }
 
@@ -72,6 +79,7 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
                 entryStatements.add(ifStatement);
                 // Compiler will pick up dead code if there's something after a return;
                 if (!stmt.isReturnStmt()) {
+
                     entryStatements.add(JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + switchToValue + "\";"));
                     entryStatements.add(JavaParser.parseStatement("break;"));
                 }
