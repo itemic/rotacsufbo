@@ -81,7 +81,6 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
                     wrapperB.addStatement(correctSwitch);
                     ifStatement.setThenStmt(wrapperA); //wontrun
                     ifStatement.setElseStmt(wrapperB);
-
                 }
 
 //                entryStatements.add(stmt);
@@ -93,10 +92,7 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
 //                    entryStatements.add(JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + switchToValue + "\";"));
                     entryStatements.add(JavaParser.parseStatement("break;"));
                 }
-
-
                 entry.setStatements(entryStatements);
-
                 entries.add(entry);
             }
 
@@ -106,6 +102,7 @@ public class UUIDSwitchingStrategy implements SwitchingStrategy {
                 NodeList<Statement> entryStatements = new NodeList<>();
                 entry.setLabel(JavaParser.parseExpression("\"" + UUID.randomUUID().toString() + "\""));
                 // Have some sort of dummy code here.
+                // TODO: If statements need to go here as well!
                 Statement sRandom = statements.get(methods.indexOf(m)).get(ThreadLocalRandom.current().nextInt(0, statements.get(methods.indexOf(m)).size()));
                 entryStatements.add(sRandom);
                 entryStatements.add(JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + UUID.randomUUID().toString() + "\";"));
