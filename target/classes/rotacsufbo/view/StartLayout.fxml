@@ -31,18 +31,6 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
-               <children>
-                  <Label fx:id="exportFileLabel" text="Label" />
-                  <Button fx:id="exportFilePickerBtn" mnemonicParsing="false" onAction="#selectExportFile" text="Export To" />
-               </children>
-               <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </VBox.margin>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </HBox>
             <Button fx:id="nextStepBtn" mnemonicParsing="false" onAction="#confirmFiles" text="NEXT" />
          </children>
       </VBox>

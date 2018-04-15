@@ -38,6 +38,7 @@ public class StartLayoutController implements Initializable{
         sourceFileOrDirectory = dc.showDialog(new Stage());
         if (sourceFileOrDirectory != null) {
             srcFileLabel.setText(sourceFileOrDirectory.getPath());
+            nextStepBtn.setDisable(false);
         } else {
             nextStepBtn.setDisable(true);
         }
@@ -46,7 +47,7 @@ public class StartLayoutController implements Initializable{
 
 
 
-    
+
 
     @FXML
     public void confirmFiles() {
