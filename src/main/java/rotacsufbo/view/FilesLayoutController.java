@@ -14,6 +14,7 @@ import javafx.scene.control.TextArea;
 import rotacsufbo.ClassFlattener;
 import rotacsufbo.FileExplorer;
 import rotacsufbo.LayoutObfuscator;
+import rotacsufbo.Obfuscator;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -54,15 +55,20 @@ public class FilesLayoutController {
                     }
 
                     CompilationUnit cu = JavaParser.parse(sb.toString());
-                    for(ClassOrInterfaceDeclaration cls: cu.findAll(ClassOrInterfaceDeclaration.class)) {
-                        System.out.println("WE ARE LOOKING AT SOMETHING + " + newValue);
-                        ClassFlattener cf = new ClassFlattener(cls);
-                        cf.createStatements();
-                        cf.createSwitch();
 
-                    }
+                    Obfuscator obfs = new Obfuscator(cu);
+                    obfs.flatten();
+                    codeTextArea.setText(obfs.getUnit().toString());
 
-                    codeTextArea.setText(cu.toString());
+//                    for(ClassOrInterfaceDeclaration cls: cu.findAll(ClassOrInterfaceDeclaration.class)) {
+//                        System.out.println("WE ARE LOOKING AT SOMETHING + " + newValue);
+//                        ClassFlattener cf = new ClassFlattener(cls);
+//                        cf.createStatements();
+//                        cf.createSwitch();
+//
+//                    }
+//
+//                    codeTextArea.setText(cu.toString());
 
                     ////////////////////////////////////////////////////
 //                    LayoutObfuscator lo = new LayoutObfuscator();
