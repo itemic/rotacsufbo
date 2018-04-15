@@ -45,18 +45,26 @@ public class Flattener {
                     uuid.add(UUID.randomUUID().toString());
 //                    uuid.add(uuidMock + "");
 //                    uuidMock++;
-                    List<VariableDeclarator> variableDeclarators = s.findAll(VariableDeclarator.class);
-                    if (variableDeclarators.isEmpty()) {
+                    System.out.println("ISFOR" + s.isForStmt() + "or ISFOREACH " + s.isForeachStmt());
+
+                    //Don't break down the values in the for loop. Just treat it as a single statement.
+                    if (s.isForStmt() || s.isForeachStmt()) {
                         statement.add(s);
                     } else {
-                        for (VariableDeclarator v: variableDeclarators) {
-                            String def = v.getType() + " " + v.getName() + " = " + DefaultsHelper.getDefault(v.getTypeAsString()) + ";";
-                            String use = v.toString() + ";";
+                        List<VariableDeclarator> variableDeclarators = s.findAll(VariableDeclarator.class);
+                        if (variableDeclarators.isEmpty()) {
+                            statement.add(s);
+                        } else {
+                            for (VariableDeclarator v : variableDeclarators) {
+                                String def = v.getType() + " " + v.getName() + " = " + DefaultsHelper.getDefault(v.getTypeAsString()) + ";";
+                                String use = v.toString() + ";";
 
-                            declaration.add(JavaParser.parseStatement(def));
-                            statement.add(JavaParser.parseStatement(use));
+                                declaration.add(JavaParser.parseStatement(def));
+                                statement.add(JavaParser.parseStatement(use));
 
+                            }
                         }
+
                     }
                 }
             }
