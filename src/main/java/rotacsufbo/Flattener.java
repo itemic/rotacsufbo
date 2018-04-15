@@ -42,9 +42,9 @@ public class Flattener {
                 NodeList<Statement> bodyStatements = body.get().getStatements();
                 for (Statement s: bodyStatements) {
                     //First add a UUID
-//                    uuid.add(UUID.randomUUID().toString());
-                    uuid.add(uuidMock + "");
-                    uuidMock++;
+                    uuid.add(UUID.randomUUID().toString());
+//                    uuid.add(uuidMock + "");
+//                    uuidMock++;
                     List<VariableDeclarator> variableDeclarators = s.findAll(VariableDeclarator.class);
                     if (variableDeclarators.isEmpty()) {
                         statement.add(s);
