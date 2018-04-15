@@ -1,6 +1,7 @@
 package rotacsufbo;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 
 public class Obfuscator {
@@ -20,6 +21,11 @@ public class Obfuscator {
             flattener.createStatements();
             flattener.createSwitch();
         }
+    }
+
+    public void decommentate() {
+        Decommentator decommentator = new Decommentator();
+        unit.accept(new Decommentator(), null);
     }
 
     public CompilationUnit getUnit() {
