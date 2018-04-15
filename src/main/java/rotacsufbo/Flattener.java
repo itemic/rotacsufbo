@@ -34,7 +34,7 @@ public class Flattener {
             List<Statement> statement = new ArrayList<>();
             List<Statement> declaration = new ArrayList<>();
             List<String> uuid = new ArrayList<>();
-
+            int uuidMock = 0;
             //Get method body
             Optional<BlockStmt> body = m.getBody();
 
@@ -42,8 +42,9 @@ public class Flattener {
                 NodeList<Statement> bodyStatements = body.get().getStatements();
                 for (Statement s: bodyStatements) {
                     //First add a UUID
-                    uuid.add(UUID.randomUUID().toString());
-
+//                    uuid.add(UUID.randomUUID().toString());
+                    uuid.add(uuidMock + "");
+                    uuidMock++;
                     List<VariableDeclarator> variableDeclarators = s.findAll(VariableDeclarator.class);
                     if (variableDeclarators.isEmpty()) {
                         statement.add(s);
@@ -62,6 +63,7 @@ public class Flattener {
 
 
             uuid.add(UUID.randomUUID().toString());
+            System.out.println("uuid size: " + uuid.size());
 
             statements.add(statement);
             declarations.add(declaration);
@@ -83,12 +85,17 @@ public class Flattener {
 
             OpaquePredator op = new OpaquePredator();
 
+            System.out.println("This method "+ m.getNameAsString() +" has " + statements.get(methods.indexOf(m)).size() + " statements.");
+            System.out.println("This method has " + uuidForMethod.size() + " UUID values");
+
             // Create a switch entry for each statement
             for (Statement stmt: statements.get(methods.indexOf(m))) {
                 SwitchEntryStmt switchEntry = new SwitchEntryStmt();
                 NodeList<Statement> entryStatements = new NodeList<>();
                 switchEntry.setLabel(JavaParser.parseExpression("\"" + switchToValue + "\""));
                 switchToValueIndex++;
+
+
                 switchToValue = uuidForMethod.get(switchToValueIndex);
 
                 // Wrap statements within the switch with If/Else
@@ -124,7 +131,7 @@ public class Flattener {
                 switchEntries.add(switchEntry);
             }
 
-            // Add random switch statements to be distracting
+//             Add random switch statements to be distracting
             int statementCount = statements.get(methods.indexOf(m)).size();
             for (int rng = 0; rng < statementCount; rng++) {
                 SwitchEntryStmt entryStmt = new SwitchEntryStmt();
@@ -148,10 +155,14 @@ public class Flattener {
 
             switchStmt.setEntries(switchEntries);
 
+            // Wrap the switch in a block
+            BlockStmt switchBlock = new BlockStmt();
+            switchBlock.addStatement(switchStmt);
+
             // Wrap this all in a while loop
             WhileStmt whileStmt = new WhileStmt();
             whileStmt.setCondition(JavaParser.parseExpression(INFINITE_LOOP));
-            whileStmt.setBody(switchStmt);
+            whileStmt.setBody(switchBlock);
 
             // Create declarations
             BlockStmt blockStmt = new BlockStmt();

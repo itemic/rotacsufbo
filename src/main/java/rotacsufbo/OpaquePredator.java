@@ -65,8 +65,8 @@ public class OpaquePredator {
 
         int modBy1 = 7; // mod by
         int remainder1 = 5; // remainder
-        int modBy2 = 11;
-        int remainder2 = 13;
+        int modBy2 = 7;
+        int remainder2 = 5;
 
 
 
