@@ -37,26 +37,30 @@ public class Flattener {
 
             //Get method body
             Optional<BlockStmt> body = m.getBody();
-            NodeList<Statement> bodyStatements = body.get().getStatements();
 
-            for (Statement s: bodyStatements) {
-                //First add a UUID
-                uuid.add(UUID.randomUUID().toString());
+            if (body.isPresent()) {
+                NodeList<Statement> bodyStatements = body.get().getStatements();
+                for (Statement s: bodyStatements) {
+                    //First add a UUID
+                    uuid.add(UUID.randomUUID().toString());
 
-                List<VariableDeclarator> variableDeclarators = s.findAll(VariableDeclarator.class);
-                if (variableDeclarators.isEmpty()) {
-                    statement.add(s);
-                } else {
-                    for (VariableDeclarator v: variableDeclarators) {
-                        String def = v.getType() + " " + v.getName() + " = " + DefaultsHelper.getDefault(v.getTypeAsString()) + ";";
-                        String use = v.toString() + ";";
+                    List<VariableDeclarator> variableDeclarators = s.findAll(VariableDeclarator.class);
+                    if (variableDeclarators.isEmpty()) {
+                        statement.add(s);
+                    } else {
+                        for (VariableDeclarator v: variableDeclarators) {
+                            String def = v.getType() + " " + v.getName() + " = " + DefaultsHelper.getDefault(v.getTypeAsString()) + ";";
+                            String use = v.toString() + ";";
 
-                        declaration.add(JavaParser.parseStatement(def));
-                        statement.add(JavaParser.parseStatement(use));
+                            declaration.add(JavaParser.parseStatement(def));
+                            statement.add(JavaParser.parseStatement(use));
 
+                        }
                     }
                 }
             }
+
+
             uuid.add(UUID.randomUUID().toString());
 
             statements.add(statement);
