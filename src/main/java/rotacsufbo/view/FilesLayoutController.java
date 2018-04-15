@@ -31,7 +31,7 @@ public class FilesLayoutController {
     @FXML
     private TextArea codeTextArea;
 
-    public void initialize(File src, File dst) {
+    public void initialize(File src) {
         FileExplorer fe = new FileExplorer();
         fe.traverseFolder(src);
         ArrayList<String> shortenedFiles = new ArrayList<>();

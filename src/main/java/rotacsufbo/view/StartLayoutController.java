@@ -20,7 +20,6 @@ import java.util.ResourceBundle;
 
 public class StartLayoutController implements Initializable{
     private File sourceFileOrDirectory;
-    private File exportFileOrDirectory;
 
     @FXML
     private Label srcFileLabel;
@@ -28,11 +27,6 @@ public class StartLayoutController implements Initializable{
     @FXML
     private Button sourceFilePickerBtn;
 
-    @FXML
-    private Label exportFileLabel;
-
-    @FXML
-    private Button exportFilePickerBtn;
 
     @FXML
     private Button nextStepBtn;
@@ -44,39 +38,25 @@ public class StartLayoutController implements Initializable{
         sourceFileOrDirectory = dc.showDialog(new Stage());
         if (sourceFileOrDirectory != null) {
             srcFileLabel.setText(sourceFileOrDirectory.getPath());
-            if (exportFileOrDirectory != null) nextStepBtn.setDisable(false);
         } else {
             nextStepBtn.setDisable(true);
         }
 
     }
 
-    @FXML
-    public void selectExportFile() {
-        DirectoryChooser dc = new DirectoryChooser();
-        exportFileOrDirectory = dc.showDialog(new Stage());
-        if (exportFileOrDirectory != null) {
-            exportFileLabel.setText(exportFileOrDirectory.getPath());
-            if (sourceFileOrDirectory != null) nextStepBtn.setDisable(false);
-        } else {
-            nextStepBtn.setDisable(true);
-        }
 
-    }
+
+    
 
     @FXML
     public void confirmFiles() {
-        if (exportFileOrDirectory != null && sourceFileOrDirectory != null) {
-            if (exportFileOrDirectory.getPath().equals(sourceFileOrDirectory.getPath())) {
-                // don't do this, it's overwriting!
-                System.out.println("BAD");
-            } else {
+        if (sourceFileOrDirectory != null) {
                 try {
                     FXMLLoader loader = new FXMLLoader();
                     loader.setLocation(Main.class.getResource("view/FilesLayout.fxml"));
                     BorderPane filesPane = (BorderPane)loader.load();
                     FilesLayoutController controller = loader.<FilesLayoutController>getController();
-                    controller.initialize(sourceFileOrDirectory, exportFileOrDirectory);
+                    controller.initialize(sourceFileOrDirectory);
                     BorderPane root = Main.getRoot();
                     root.setCenter(filesPane);
                 } catch (IOException e) {
@@ -93,7 +73,7 @@ public class StartLayoutController implements Initializable{
 //                    System.out.println(f.toString().substring(sourceFileOrDirectory.toString().length()));
 //                    //TODO: preserve folder structure
 //                    //TODO: actually this stuff will be done in the other controller but for now this is fine :)
-                }
+
                 System.out.println("BEP");
 
 
