@@ -42,7 +42,7 @@ public class Flattener {
                 NodeList<Statement> bodyStatements = body.get().getStatements();
                 for (Statement s: bodyStatements) {
                     //First add a UUID
-                    uuid.add(UUID.randomUUID().toString());
+                    uuid.add(EvilEncoder.uuidEncode(UUID.randomUUID().toString()));
 //                    uuid.add(uuidMock + "");
 //                    uuidMock++;
                     System.out.println("ISFOR" + s.isForStmt() + "or ISFOREACH " + s.isForeachStmt());
@@ -70,7 +70,7 @@ public class Flattener {
             }
 
 
-            uuid.add(UUID.randomUUID().toString());
+            uuid.add(EvilEncoder.uuidEncode(UUID.randomUUID().toString()));
             System.out.println("uuid size: " + uuid.size());
 
             statements.add(statement);
@@ -113,7 +113,7 @@ public class Flattener {
                 boolean randomChoice = ThreadLocalRandom.current().nextBoolean();
                 Statement randomStatement = statements.get(methods.indexOf(m)).get(ThreadLocalRandom.current().nextInt(0, statements.get(methods.indexOf(m)).size()));
                 Statement correctSwitch = JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + switchToValue + "\";");
-                Statement incorrectSwitch = JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + UUID.randomUUID().toString() + "\";");
+                Statement incorrectSwitch = JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + EvilEncoder.uuidEncode(UUID.randomUUID().toString()) + "\";");
                 BlockStmt correctWrapper = new BlockStmt();
                 correctWrapper.addStatement(stmt);
                 correctWrapper.addStatement(correctSwitch);
@@ -144,11 +144,11 @@ public class Flattener {
             for (int rng = 0; rng < statementCount; rng++) {
                 SwitchEntryStmt entryStmt = new SwitchEntryStmt();
                 NodeList<Statement> entryStatements = new NodeList<>();
-                entryStmt.setLabel(JavaParser.parseExpression("\"" + UUID.randomUUID().toString() + "\""));
+                entryStmt.setLabel(JavaParser.parseExpression("\"" + EvilEncoder.uuidEncode(UUID.randomUUID().toString()) + "\""));
 
                 Statement randomStatement = statements.get(methods.indexOf(m)).get(ThreadLocalRandom.current().nextInt(0, statements.get(methods.indexOf(m)).size()));
                 entryStatements.add(randomStatement);
-                entryStatements.add(JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + UUID.randomUUID().toString() + "\";"));
+                entryStatements.add(JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + EvilEncoder.uuidEncode(UUID.randomUUID().toString()) + "\";"));
                 entryStatements.add(JavaParser.parseStatement("break;"));
 
                 entryStmt.setStatements(entryStatements);

@@ -57,8 +57,8 @@ public class FilesLayoutController {
                     CompilationUnit cu = JavaParser.parse(sb.toString());
 
                     Obfuscator obfs = new Obfuscator(cu);
-//                    obfs.flatten();
-                    obfs.decommentate();
+                    obfs.flatten();
+//                    obfs.decommentate();
                     codeTextArea.setText(obfs.getUnit().toString());
 
 //                    for(ClassOrInterfaceDeclaration cls: cu.findAll(ClassOrInterfaceDeclaration.class)) {
