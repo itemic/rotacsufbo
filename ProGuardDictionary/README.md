@@ -1,4 +1,5 @@
 # Custom dictionary for ProGuard
+Customising the dictionary for proguard with names that consist only of 1, capital i, and lower case l
 
 ## How to use
 ```
@@ -6,6 +7,7 @@
 -packageobfuscationdictionary package-dictionary.txt
 -classobfuscationdictionary class-dictionary.txt
 ```
+I have named our custom ones according to the ProGuard flag
 
 ### References
 * https://proandroiddev.com/improving-proguard-name-obfuscation-83b27b34c52a
