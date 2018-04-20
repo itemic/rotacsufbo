@@ -57,24 +57,10 @@ public class FilesLayoutController {
                     CompilationUnit cu = JavaParser.parse(sb.toString());
 
                     Obfuscator obfs = new Obfuscator(cu);
+                    obfs.decommentate();
                     obfs.flatten();
-//                    obfs.decommentate();
                     codeTextArea.setText(obfs.getUnit().toString());
 
-//                    for(ClassOrInterfaceDeclaration cls: cu.findAll(ClassOrInterfaceDeclaration.class)) {
-//                        System.out.println("WE ARE LOOKING AT SOMETHING + " + newValue);
-//                        ClassFlattener cf = new ClassFlattener(cls);
-//                        cf.createStatements();
-//                        cf.createSwitch();
-//
-//                    }
-//
-//                    codeTextArea.setText(cu.toString());
-
-                    ////////////////////////////////////////////////////
-//                    LayoutObfuscator lo = new LayoutObfuscator();
-//                    String oneLiner = lo.intoALine(new File(src + newValue));
-//                    codeTextArea.setText(oneLiner);
 
                     System.out.println(src + newValue);
                 } catch (FileNotFoundException e) {
