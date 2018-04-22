@@ -14,36 +14,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Decommentator extends VoidVisitorAdapter<Object>{
-    private ArrayList<Node> thingsThatNeedToDie = new ArrayList<>();
+    private ArrayList<Node> nodeCollection = new ArrayList<>();
 
     @Override
     public void visit(CompilationUnit n, Object args) {
         super.visit(n, args);
-        List<Node> children = n.getChildNodes();
-        kill(children);
+        List<Node> childNodes = n.getChildNodes();
+        kill(childNodes);
         System.out.println("A custom string" + n.toString());
-        for (Node child: thingsThatNeedToDie) {
+        for (Node child: nodeCollection) {
             child.remove();
         }
 //        n.setComment(new LineComment(""));
 
     }
 
-    private void kill(List<Node> children) {
-        for(Node child: children) {
-            kill(child);
+    private void kill(List<Node> nodes) {
+        for(Node node: nodes) {
+            kill(node);
         }
     }
 
-    /**
-     * KILLS CHILDREN (DONT RUN IN HOSPITALS)
-     * @param n the node to murder
-     */
+
     private void kill(Node n) {
         n.removeComment();
         for (Node child: n.getChildNodes()) {
             if (child.getClass() == BlockComment.class || child.getClass() == LineComment.class || child.getClass() == JavadocComment.class) {
-                thingsThatNeedToDie.add(child);
+                nodeCollection.add(child);
             } else {
                 kill(child);
             }

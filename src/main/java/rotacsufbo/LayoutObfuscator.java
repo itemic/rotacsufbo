@@ -8,6 +8,7 @@ import java.io.IOException;
 public class LayoutObfuscator {
 
     //TODO: DOES NOT WORK WITH @ANNOTATIONS
+    // ^ that is a lie i fixed it
     public String intoALine(File javaSource) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(javaSource));
         StringBuilder oneLineFile = new StringBuilder();
