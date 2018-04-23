@@ -148,8 +148,13 @@ public class Flattener {
 
                 Statement randomStatement = statements.get(methods.indexOf(m)).get(ThreadLocalRandom.current().nextInt(0, statements.get(methods.indexOf(m)).size()));
                 entryStatements.add(randomStatement);
-                entryStatements.add(JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + EvilEncoder.uuidEncode(UUID.randomUUID().toString()) + "\";"));
-                entryStatements.add(JavaParser.parseStatement("break;"));
+
+                // make sure random statements don't return;
+                if (!randomStatement.isReturnStmt()) {
+                    entryStatements.add(JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + EvilEncoder.uuidEncode(UUID.randomUUID().toString()) + "\";"));
+                    entryStatements.add(JavaParser.parseStatement("break;"));
+                }
+
 
                 entryStmt.setStatements(entryStatements);
                 switchEntries.add(entryStmt);

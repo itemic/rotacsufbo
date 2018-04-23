@@ -96,7 +96,6 @@ public class FilesLayoutController {
                         sb.append(line + "\n");
                     }
 
-
                     codeTextArea.setText(sb.toString());
 
 
