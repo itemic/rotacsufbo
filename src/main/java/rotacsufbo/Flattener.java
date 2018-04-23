@@ -45,7 +45,6 @@ public class Flattener {
                     uuid.add(EvilEncoder.uuidEncode(UUID.randomUUID().toString()));
 //                    uuid.add(uuidMock + "");
 //                    uuidMock++;
-                    System.out.println("ISFOR" + s.isForStmt() + "or ISFOREACH " + s.isForeachStmt());
 
                     //Don't break down the values in the for loop. Just treat it as a single statement.
                     if (s.isForStmt() || s.isForeachStmt()) {

@@ -28,6 +28,10 @@ public class Obfuscator {
         unit.accept(new Decommentator(), null);
     }
 
+    public void stringCrypt() {
+        // lol do nothing
+    }
+
     public CompilationUnit getUnit() {
         return unit;
     }

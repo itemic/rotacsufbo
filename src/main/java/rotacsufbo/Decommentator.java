@@ -25,7 +25,6 @@ public class Decommentator extends VoidVisitorAdapter<Object>{
         for (Node child: nodeCollection) {
             child.remove();
         }
-//        n.setComment(new LineComment(""));
 
     }
 
