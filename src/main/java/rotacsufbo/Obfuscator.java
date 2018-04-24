@@ -28,7 +28,7 @@ public class Obfuscator {
         unit.accept(new Decommentator(), null);
     }
 
-    public void stringCrypt() {
+    public void encryptConstants() {
         // lol do nothing
     }
 

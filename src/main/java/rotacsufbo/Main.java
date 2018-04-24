@@ -1,5 +1,7 @@
 package rotacsufbo;
 
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ast.CompilationUnit;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -8,7 +10,9 @@ import javafx.stage.Stage;
 import rotacsufbo.view.StartLayoutController;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main extends Application{
 
@@ -18,25 +22,24 @@ public class Main extends Application{
     public static void main(String[] args) {
         FileExplorer fe = new FileExplorer();
         // can we make it so we don't specify this??
-        File root = new File("C:\\Users\\Terran\\IdeaProjects\\Bepis\\src\\rotacsufbo.Main.java");
+        File root = new File("C:\\Users\\Terran\\IdeaProjects\\Bepis");
         fe.traverseFolder(root);
-//        for (File f : fe.getFiles()) {
-//            System.out.println(f.getName());
-//            CompilationUnit unit = JavaParser.parse(f);
-//
-//            for(ClassOrInterfaceDeclaration cls: unit.findAll(ClassOrInterfaceDeclaration.class)) {
-//                rotacsufbo.ClassFlattener cf = new rotacsufbo.ClassFlattener(cls);
-//                cf.createStatements();
-//                cf.createSwitch();
-//            }
 
-//            System.out.println(unit);
-//        }
+        ArrayList<File> files = fe.getFiles();
+        for (File f: files) {
+            System.out.println(f.getName());
+            try {
+                CompilationUnit unit = JavaParser.parse(f);
+                unit.accept(new EncryptingVisitor(), null);
+                System.out.println(unit);
 
-        OpaquePredator op = new OpaquePredator();
-        System.out.println(op.makeTrueExpression("bepis"));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
 
-        launch(args);
+
+//        launch(args);
     }
 
 
