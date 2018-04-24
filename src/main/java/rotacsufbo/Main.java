@@ -31,6 +31,8 @@ public class Main extends Application{
             try {
                 CompilationUnit unit = JavaParser.parse(f);
                 unit.accept(new EncryptingVisitor(), null);
+                unit.accept(new EncryptingVisitor2(), null);
+                unit.accept(new EncryptingVisitor3(), null);
                 System.out.println(unit);
 
             } catch (FileNotFoundException e) {

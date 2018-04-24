@@ -30,11 +30,5 @@ public class EncryptingVisitor extends VoidVisitorAdapter<Object> {
 
     }
 
-//    @Override
-//    public void visit(ExpressionStmt n, Object args) {
-//        System.out.println("VIS: " + n.getChildNodes());
-//        for (Node wn: n.getChildNodes()) {
-//            System.out.println(wn + " " + wn.getClass());
-//        }
-//    }
+
 }
