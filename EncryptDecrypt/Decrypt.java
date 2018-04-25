@@ -1,32 +1,31 @@
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Decrypt {
 
-    public Decrypt(){
+
+    public Decrypt() {
     }
 
-    public Map generateNumberEncryptionHashMap() {
-        Map<Integer, String> numberStringHashMap = new TreeMap<Integer, String>();
-        numberStringHashMap.put(0, "zero");
-        numberStringHashMap.put(1, "one");
-        numberStringHashMap.put(2, "two");
-        numberStringHashMap.put(3, "three");
-        numberStringHashMap.put(4, "four");
-        numberStringHashMap.put(5, "five");
-        numberStringHashMap.put(6, "six");
-        numberStringHashMap.put(7, "seven");
-        numberStringHashMap.put(8, "eight");
-        numberStringHashMap.put(9, "nine");
-
-        return numberStringHashMap;
-
+    /**
+     * Generating a list where each number corresponds to its position in the list.
+     *
+     * @return
+     */
+    public List generateNumberList() {
+        List<String> places = Arrays.asList("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine");
+        return places;
     }
 
+    /**
+     * This is the decryption method for the Vigenere cipher technique. It would decrypt letters that followed this encryption method, but
+     * numbers was decrypted by the other digit encryption technique and punctuation was left as is.
+     * @param encryptedText
+     * @param key
+     * @return
+     */
     public String vigenereDecrypt(String encryptedText, final String key) {
         String decryptedText = "";
-        Map<Integer, String> numberStringHashMap = generateNumberEncryptionHashMap();
+        List<String> numberList = generateNumberList();
         for (int i = 0, j = 0; i < encryptedText.length(); i++) {
             char c = encryptedText.charAt(i);
             if (Character.isLowerCase(c)) {
@@ -36,7 +35,7 @@ public class Decrypt {
                 decryptedText += (char) ((c - Character.toUpperCase(key.charAt(j)) + 26) % 26 + 'A');
                 j = ++j % key.length();
             } else if (Character.isDigit(c)) {
-                decryptedText += decryptDigit(numberStringHashMap, c);
+                decryptedText += decryptDigit(numberList, c);
             } else {
                 decryptedText += (char) c;
 
@@ -45,6 +44,13 @@ public class Decrypt {
         return decryptedText;
     }
 
+    /**
+     * This decryption takes care of the Substitution encryption technique. If the predetermined offset provides an ASCII value
+     * which is less than 32 (the lowest acceptable ASCII value for characters relevant), it would wrap around and proceed through the
+     * higher ASCII values.
+     * @param encryptedText
+     * @return
+     */
     public String SubstitutionDecrypt(String encryptedText) {
         String decryptedString = "";
         for (char c : encryptedText.toCharArray()) {
@@ -58,6 +64,13 @@ public class Decrypt {
 
         return decryptedString;
     }
+
+    /**
+     * Decrypting the Atbash cipher involves looking at the index of a character in the encrypted string and then finding the position of the
+     * character in the forward traversed string.
+     * @param encryptedText
+     * @return
+     */
     public String AtbashDecrypt(String encryptedText) {
         String ordered = generateAtbashOrderedString();
         StringBuffer buffer = new StringBuffer(ordered);
@@ -74,6 +87,11 @@ public class Decrypt {
 
 
     }
+
+    /**
+     * Generating the ordered ASCII character to refer to the decrypted characters for the Atbash cipher technique.
+     * @return
+     */
     public String generateAtbashOrderedString() {
         String ordered = "";
         for (int i = 32; i <= 126; i++) {
@@ -82,22 +100,36 @@ public class Decrypt {
 
         return ordered;
     }
-   public String decryptDigitString(String encryptedNumbers) {
 
-        Map<Integer, String> numberStringHashMap = generateNumberEncryptionHashMap();
+    /**
+     * Decrypting a string of only numbers - implying the decrypted string is number based as well. Each digit is decrypted by the numerical encryption
+     * technique.
+     * @param encryptedNumbers
+     * @return
+     */
+    public String decryptDigitString(String encryptedNumbers) {
+
+        List<String> numberList = generateNumberList();
         String decryptedNumbers = "";
         for (char i : encryptedNumbers.toCharArray()) {
-            decryptedNumbers += Character.toString(decryptDigit(numberStringHashMap, i));
+            decryptedNumbers += Character.toString(decryptDigit(numberList, i));
         }
         return decryptedNumbers;
     }
+
+    /**
+     * Using the offset value, and then 26 - offset, this technique would implement the same techniques as the CaesarEncrypt method.
+     * @param encrypted
+     * @param offset
+     * @return
+     */
     public String CaesarDecrypt(String encrypted, int offset) {
 
         offset = 26 - offset;
 
         offset = offset % 26 + 26;
         String decrypted = "";
-        Map<Integer, String> numberStringHashMap = generateNumberEncryptionHashMap();
+        List<String> numberList = generateNumberList();
         for (char i : encrypted.toCharArray()) {
             if (Character.isLetter(i)) {
                 if (Character.isUpperCase(i)) {
@@ -106,14 +138,19 @@ public class Decrypt {
                     decrypted += ((char) ('a' + (i - 'a' + offset) % 26));
                 }
             } else if (Character.isDigit(i)) {
-                decrypted += Character.toString(decryptDigit(numberStringHashMap, i));
+                decrypted += Character.toString(decryptDigit(numberList, i));
             } else {
                 decrypted += i;
             }
         }
         return decrypted;
     }
-    /* Converts the letters to the corresponding position on the alphabet a = 1, b = 2 ...*/
+
+    /**
+     *  Converts the letters to the corresponding position on the alphabet a = 1, b = 2 ...
+     * @param text
+     * @return
+     */
     public int[] convertToAlphabetIntegerArray(String text) {
         int[] alphabetArray = new int[text.length()];
         int i = 0;
@@ -133,21 +170,30 @@ public class Decrypt {
         }
         return alphabetArray;
     }
-    public char decryptDigit(Map<Integer, String> numberStringHashMap, char c) {
+
+    /**
+     * Decrypting a digit to it's original value. Now it is traversing backwards to see the next number below the one currently being
+     * investigated to see which numbers have the same length in word form. This too has wrap-around abilities where if there are no numbers below it,
+     * it would wrap around and go to the highest number (9) and decrement.
+     * @param numberList
+     * @param c
+     * @return
+     */
+    public char decryptDigit(List numberList, char c) {
         if (!Character.isDigit(c)) {
             return c;
         }
         int numericalValue = Character.getNumericValue(c);
-        String numberAsString = (String) numberStringHashMap.get(numericalValue);
+        String numberAsString = (String) numberList.get(numericalValue);
         boolean needToGetDigit = true;
         char returnDigit = ' ';
         int iterationNumber = 0;
-        ArrayList<Integer> keys = new ArrayList<Integer>(numberStringHashMap.keySet());
         while (needToGetDigit) {
-            for (int i = keys.size() - 1; i >= 0; i--) {
-                if ((keys.get(i) < numericalValue && numberAsString.length() == numberStringHashMap.get(keys.get(i)).length() && iterationNumber == 0) ||
-                        (numberStringHashMap.get(keys.get(i)).length() == numberAsString.length() && iterationNumber != 0)) {
-                    int encryptedDigit = (int) keys.get(i);
+            for (int i = numberList.size() - 1; i >= 0; i--) {
+                String value = (String) numberList.get(i);
+                if ((i < numericalValue && numberAsString.length() == value.length() && iterationNumber == 0) ||
+                        (value.length() == numberAsString.length() && iterationNumber != 0)) {
+                    int encryptedDigit = i;
                     returnDigit = (char) (encryptedDigit + '0');
                     needToGetDigit = false;
                     break;
@@ -157,18 +203,27 @@ public class Decrypt {
         }
         return returnDigit;
     }
+
+    /**
+     * This method would decrypt a character according to the one-time pad technique. This would use the 1- 26 scale
+     * for lower case letters, (-1 to -26) scale for Upper case letters. For digits, the novel digit encryption technique
+     * would be used and punctuation would have been no change.
+     * @param encryptedText
+     * @param key
+     * @return
+     */
     public String oneTimePadDecrypt(String encryptedText, String key) {
 
         int[] stringAlphabetArray = convertToAlphabetIntegerArray(encryptedText);
         int[] keyAlphabetArray = convertToAlphabetIntegerArray(key);
-        Map<Integer, String> numberStringHashMap = generateNumberEncryptionHashMap();
+        List<String> numberList = generateNumberList();
 
         int[] decryptedIntArray = new int[stringAlphabetArray.length];
         String decrypted = "";
 
         for (int i = 0, j = 0; i < stringAlphabetArray.length; i++) {
             if (stringAlphabetArray[i] > 26) {
-                decrypted += decryptDigit(numberStringHashMap, (char) stringAlphabetArray[i]);
+                decrypted += decryptDigit(numberList, (char) stringAlphabetArray[i]);
             } else if (stringAlphabetArray[i] < 0) {
                 decryptedIntArray[i] = (stringAlphabetArray[i] * -1 - keyAlphabetArray[j]) % 26;
                 if (decryptedIntArray[i] < 0) {
@@ -188,6 +243,7 @@ public class Decrypt {
 
         return decrypted;
     }
+
 
 
 

@@ -1,12 +1,14 @@
 package rotacsufbo.encrypt;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class Encrypt {
 
 
-    public Encrypt(){
+    public Encrypt() {
     }
 
     /**
@@ -16,6 +18,7 @@ public class Encrypt {
      * Then it would take the modulus of 26 of their sum to give the position in the alphabet the new encrypted letter should be.
      * For lower case letters, the scale of 1-26 was used. For upper case letters, a negative 1-26 scale was used - e.g. A = -1, B = -2.
      * Numbers and other points of punctuation are not applicable for this method of encryption. For numbers the digit obfuscation technique was used.
+     *
      * @param inputText
      * @param key
      * @return encryptedOneTimePadStringx
@@ -25,13 +28,13 @@ public class Encrypt {
         int[] stringAlphabetArray = convertToAlphabetIntegerArray(inputText);
         int[] keyAlphabetArray = convertToAlphabetIntegerArray(key);
 
-        Map<Integer, String> numberStringHashMap = generateNumberEncryptionHashMap();
+        List<String> numberList = generateNumberList();
 
         int[] encryptedIntArray = new int[stringAlphabetArray.length];
         String encryptedString = "";
         for (int i = 0, j = 0; i < stringAlphabetArray.length; i++) {
             if (stringAlphabetArray[i] > 26) {
-                encryptedString += encryptDigit(numberStringHashMap, (char) stringAlphabetArray[i]);
+                encryptedString += encryptDigit(numberList, (char) stringAlphabetArray[i]);
             } else if (stringAlphabetArray[i] < 0) {
                 encryptedIntArray[i] = (stringAlphabetArray[i] * -1 + keyAlphabetArray[j]) % 26;
                 encryptedString += (char) (encryptedIntArray[i] + 65);
@@ -46,33 +49,34 @@ public class Encrypt {
     }
 
     /**
-     * This is a novel data encryption / obfuscation techniqeue. Each digit is placed in the hashmap which has a string value that
-     * corresponds to their name (1 = "one"). The digit that it would be encrypted to is the next value in the sequence of numbers where the
+     * This is a novel data encryption / obfuscation technique. Each digit is placed in the list which has a string value that
+     * corresponds to their index position. The digit that it would be encrypted to is the next value in the sequence of numbers where the
      * length of the number as a string is the same as the length of the digit you are encrypting as a string. For example, 1 = one would
      * be encrypted to 2 = two. Since two is the next digit higher than one who's word representation is the same length as one. This function has wrap
      * -around capabilities, so for example 8 = eight (which has five letters) would be encrypted to 3 = three, since "three" is the next number with
-     * five letter.
-     * @param numberStringHashMap
+     * five letters.
+     *
+     * @param numberList
      * @param digit
      * @return
      */
-    public char encryptDigit(Map numberStringHashMap, char digit) {
+    public char encryptDigit(List numberList, char digit) {
 
         if (!Character.isDigit(digit)) {
             return digit;
         }
         int numericalValue = Character.getNumericValue(digit);
 
-        String numberAsString = (String) numberStringHashMap.get(numericalValue);
+        String numberAsString = (String) numberList.get(numericalValue);
         boolean needToGetDigit = true;
         char returnDigit = ' ';
         int iterationNumber = 0;
         while (needToGetDigit) {
-            for (Object key : numberStringHashMap.keySet()) {
-                String value = (String) numberStringHashMap.get(key);
-                if ((value.length() == numberAsString.length() && (int) key > numericalValue && iterationNumber == 0) ||
+            for (int i = 0; i < numberList.size(); i++) {
+                String value = (String) numberList.get(i);
+                if ((value.length() == numberAsString.length() && i > numericalValue && iterationNumber == 0) ||
                         (value.length() == numberAsString.length() && iterationNumber != 0)) {
-                    int encryptedDigit = (int) key;
+                    int encryptedDigit = i;
                     returnDigit = (char) (encryptedDigit + '0');
                     needToGetDigit = false;
                     break;
@@ -80,28 +84,26 @@ public class Encrypt {
             }
             iterationNumber++;
         }
-
         return returnDigit;
     }
 
-    public Map generateNumberEncryptionHashMap() {
-        Map<Integer, String> numberStringHashMap = new TreeMap<Integer, String>();
-        numberStringHashMap.put(0, "zero");
-        numberStringHashMap.put(1, "one");
-        numberStringHashMap.put(2, "two");
-        numberStringHashMap.put(3, "three");
-        numberStringHashMap.put(4, "four");
-        numberStringHashMap.put(5, "five");
-        numberStringHashMap.put(6, "six");
-        numberStringHashMap.put(7, "seven");
-        numberStringHashMap.put(8, "eight");
-        numberStringHashMap.put(9, "nine");
-
-        return numberStringHashMap;
-
+    /**
+     * Generating a list where each number corresponds to its position in the list.
+     *
+     * @return
+     */
+    public List generateNumberList() {
+        List<String> places = Arrays.asList("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine");
+        return places;
     }
 
-    /* Converts the letters to the corresponding position on the alphabet a = 1, b = 2 ...*/
+    /**
+     * Converts the letters to the corresponding position on the alphabet a = 1, b = 2 ...
+     * If it is not a letter, then it would be their value in the ASCII representation.
+     *
+     * @param text
+     * @return an integer array of alphabet positions.
+     */
     public int[] convertToAlphabetIntegerArray(String text) {
         int[] alphabetArray = new int[text.length()];
         int i = 0;
@@ -122,9 +124,17 @@ public class Encrypt {
         return alphabetArray;
     }
 
+    /**
+     * This type of cipher technique uses the key as each letter corresponds to the letter position in the string.
+     * Once the key word has used its last letter it would wrap around again. This technique is not applicable to numbers and punctuation.
+     * Hence, the novel number obfuscation technique was used for digits and no difference for punctuation.
+     * @param inputText
+     * @param key
+     * @return
+     */
     public String vigenereEncrypt(String inputText, String key) {
         String encrypted = "";
-        Map<Integer, String> numberStringHashMap = generateNumberEncryptionHashMap();
+        List<String> numberList = generateNumberList();
         for (int i = 0, j = 0; i < inputText.length(); i++) {
             char c = inputText.charAt(i);
             if (Character.isLowerCase(c)) {
@@ -134,7 +144,7 @@ public class Encrypt {
                 encrypted += (char) ((c + Character.toUpperCase(key.charAt(j)) - 2 * 'A') % 26 + 'A');
                 j = ++j % key.length();
             } else if (Character.isDigit(c)) {
-                encrypted += Character.toString(encryptDigit(numberStringHashMap, c));
+                encrypted += Character.toString(encryptDigit(numberList, c));
             } else {
                 encrypted += (char) c;
             }
@@ -142,10 +152,18 @@ public class Encrypt {
         return encrypted;
     }
 
+    /**
+     * This cipher technique shifts the ASCII value of a character by a certain offset and becomes with another letter
+     * in the alphabet. Likewise, this is only applicable for letters - uppercase and lower case. FOr digits the novel
+     * digit obfuscation technique was used and for punctuation there was no significant difference.
+     * @param enc
+     * @param offset
+     * @return
+     */
     public String CaesarEncrypt(String enc, int offset) {
         offset = offset % 26 + 26;
         String encrypted = "";
-        Map<Integer, String> numberStringHashMap = generateNumberEncryptionHashMap();
+        List<String> numberList = generateNumberList();
         for (char i : enc.toCharArray()) {
             if (Character.isLetter(i)) {
                 if (Character.isUpperCase(i)) {
@@ -154,7 +172,7 @@ public class Encrypt {
                     encrypted += ((char) ('a' + (i - 'a' + offset) % 26));
                 }
             } else if (Character.isDigit(i)) {
-                    encrypted += Character.toString(encryptDigit(numberStringHashMap, i));
+                encrypted += Character.toString(encryptDigit(numberList, i));
             } else {
                 encrypted += i;
             }
@@ -162,20 +180,34 @@ public class Encrypt {
         return encrypted;
     }
 
+    /**
+     * This encryption technique takes all applicable ASCII characters (numbers, letters and punctuation) into account.
+     * It shifts them by a constant amount (69). If the addition from the current value + 69 exceeds the highest applicable
+     * ASCII integer value then it would do a wrap around.
+     * @param inputText
+     * @return
+     */
     public String SubstitutionEncrypt(String inputText) {
-        String sb = "";
+        String encrypted = "";
         for (char c : inputText.toCharArray()) {
             int newIntegerValue = (int) c + 69;
             if (newIntegerValue > 126) {
                 int offset = newIntegerValue - 126;
                 newIntegerValue = 32 + offset - 1;
             }
-            sb += (char) newIntegerValue;
+            encrypted += (char) newIntegerValue;
         }
 
-        return sb;
+        return encrypted;
     }
 
+    /**
+     * This encryption technique takes a string of characters (in this case all ASCII characters applicable with numbers, letters and punctuation).
+     * It chooses the character to encrypt it with by reversing the string of characters and identifying the character in the corresponding
+     * position of the reversed string.
+     * @param inputText
+     * @return
+     */
     public String AtbashEncrypt(String inputText) {
         String ordered = generateAtbashOrderedString();
         StringBuffer buffer = new StringBuffer(ordered);
@@ -190,23 +222,32 @@ public class Encrypt {
 
         return encryptedString;
     }
+
+    /**
+     * Iterating through applicable ASCII integer values to obtain the character and concatenate it to the string of characters used.
+     * @return
+     */
     public String generateAtbashOrderedString() {
         String ordered = "";
         for (int i = 32; i <= 126; i++) {
             ordered += (char) i;
         }
-
         return ordered;
     }
+
+    /**
+     * Uses a string input based on the assumption that it is only complete with numbers. Then it would encrypt each individual digit with
+     * the novel number encryption technique.
+     * @param numbers
+     * @return
+     */
     public String encryptDigitString(String numbers) {
 
-        Map<Integer, String> numberStringHashMap = generateNumberEncryptionHashMap();
+        List<String> numberList = generateNumberList();
         String encryptedNumbers = "";
         for (char i : numbers.toCharArray()) {
-            encryptedNumbers += Character.toString(encryptDigit(numberStringHashMap, i));
+            encryptedNumbers += Character.toString(encryptDigit(numberList, i));
         }
         return encryptedNumbers;
     }
-
-
 }
