@@ -7,6 +7,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import rotacsufbo.encrypt.Encrypt;
 
 public class EncryptingVisitor extends VoidVisitorAdapter<Object> {
 
@@ -18,9 +19,10 @@ public class EncryptingVisitor extends VoidVisitorAdapter<Object> {
             // convert "STR" to Decryptor.decrypt(ENCRYPTED)
 
             String originalString = n.getInitializer().get().toString();
-            String encryptedString = originalString; // here we encrypt it with sejal
+            String encryptedString = Encrypt.encryptAll(originalString); // here we encrypt it with sejal
+            System.out.println("Decrypt.decrypt(\"" + encryptedString + "\")");
 
-            n.setInitializer(JavaParser.parseExpression("Decryptor.decrypt(" + encryptedString + ")"));
+            n.setInitializer(JavaParser.parseExpression("Decrypt.decrypt(\"" + encryptedString + "\")"));
 
         }
 

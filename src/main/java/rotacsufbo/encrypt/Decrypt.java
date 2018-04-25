@@ -1,3 +1,6 @@
+package rotacsufbo.encrypt;
+
+import java.io.CharConversionException;
 import java.util.*;
 
 public class Decrypt {
@@ -6,12 +9,42 @@ public class Decrypt {
     public Decrypt() {
     }
 
+    public static String decrypt(String encrypted) {
+        final int ENCRYPTION_ALGORITHMS = 5;
+
+        //b64 decode
+        byte[] decoded = Base64.getDecoder().decode(encrypted);
+        String decodedStr = new String(decoded);
+
+        // get decryption alg used
+        int encryptorUsed = 10 * Character.getNumericValue(decodedStr.charAt(0)) + Character.getNumericValue(decodedStr.charAt(1));
+        encryptorUsed %= ENCRYPTION_ALGORITHMS;
+
+        String decryptedString = decodedStr.substring(2);
+
+        if (encryptorUsed == 0) {
+            // OTP
+        } else if (encryptorUsed == 1) {
+            // VIG
+        } else if (encryptorUsed == 2) {
+            // SUB
+            decryptedString = SubstitutionDecrypt(decryptedString);
+        } else if (encryptorUsed == 3 ) {
+            // CAE
+        } else if (encryptorUsed == 4) {
+            // ATB
+            decryptedString = AtbashDecrypt(decryptedString);
+        }
+
+        return decryptedString;
+    }
+
     /**
      * Generating a list where each number corresponds to its position in the list.
      *
      * @return
      */
-    public List generateNumberList() {
+    public static List generateNumberList() {
         List<String> places = Arrays.asList("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine");
         return places;
     }
@@ -23,7 +56,7 @@ public class Decrypt {
      * @param key
      * @return
      */
-    public String vigenereDecrypt(String encryptedText, final String key) {
+    public static String vigenereDecrypt(String encryptedText, final String key) {
         String decryptedText = "";
         List<String> numberList = generateNumberList();
         for (int i = 0, j = 0; i < encryptedText.length(); i++) {
@@ -51,7 +84,7 @@ public class Decrypt {
      * @param encryptedText
      * @return
      */
-    public String SubstitutionDecrypt(String encryptedText) {
+    public static String SubstitutionDecrypt(String encryptedText) {
         String decryptedString = "";
         for (char c : encryptedText.toCharArray()) {
             int newIntegerValue = (int) c - 69;
@@ -71,7 +104,7 @@ public class Decrypt {
      * @param encryptedText
      * @return
      */
-    public String AtbashDecrypt(String encryptedText) {
+    public static String AtbashDecrypt(String encryptedText) {
         String ordered = generateAtbashOrderedString();
         StringBuffer buffer = new StringBuffer(ordered);
         String reverse = buffer.reverse().toString();
@@ -92,7 +125,7 @@ public class Decrypt {
      * Generating the ordered ASCII character to refer to the decrypted characters for the Atbash cipher technique.
      * @return
      */
-    public String generateAtbashOrderedString() {
+    public static String generateAtbashOrderedString() {
         String ordered = "";
         for (int i = 32; i <= 126; i++) {
             ordered += (char) i;
@@ -107,7 +140,7 @@ public class Decrypt {
      * @param encryptedNumbers
      * @return
      */
-    public String decryptDigitString(String encryptedNumbers) {
+    public static String decryptDigitString(String encryptedNumbers) {
 
         List<String> numberList = generateNumberList();
         String decryptedNumbers = "";
@@ -123,7 +156,7 @@ public class Decrypt {
      * @param offset
      * @return
      */
-    public String CaesarDecrypt(String encrypted, int offset) {
+    public static String CaesarDecrypt(String encrypted, int offset) {
 
         offset = 26 - offset;
 
@@ -151,7 +184,7 @@ public class Decrypt {
      * @param text
      * @return
      */
-    public int[] convertToAlphabetIntegerArray(String text) {
+    public static int[] convertToAlphabetIntegerArray(String text) {
         int[] alphabetArray = new int[text.length()];
         int i = 0;
 
@@ -179,7 +212,7 @@ public class Decrypt {
      * @param c
      * @return
      */
-    public char decryptDigit(List numberList, char c) {
+    public static char decryptDigit(List numberList, char c) {
         if (!Character.isDigit(c)) {
             return c;
         }
@@ -212,7 +245,7 @@ public class Decrypt {
      * @param key
      * @return
      */
-    public String oneTimePadDecrypt(String encryptedText, String key) {
+    public static String oneTimePadDecrypt(String encryptedText, String key) {
 
         int[] stringAlphabetArray = convertToAlphabetIntegerArray(encryptedText);
         int[] keyAlphabetArray = convertToAlphabetIntegerArray(key);

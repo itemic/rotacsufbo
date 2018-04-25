@@ -1,14 +1,48 @@
 package rotacsufbo.encrypt;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Encrypt {
 
 
     public Encrypt() {
+    }
+
+    public static String encryptAll(String inputText) {
+        final int ENCRYPTION_ALGORITHMS = 5;
+        //OTP, Vig, Cae, Sub, Atb
+
+        // Determine encryption algorithm to use
+        int rngDecider = ThreadLocalRandom.current().nextInt(0, 100); // rng from 0-99
+        String rngAppend = rngDecider < 10 ? "0" + rngDecider : rngDecider + ""; //leftpad
+
+        // Actually encrypt the string
+        int decision = rngDecider % ENCRYPTION_ALGORITHMS;
+        String encrypted = inputText;
+        if (decision == 0) {
+            // OTP
+        } else if (decision == 1) {
+            // VIG
+
+        } else if (decision == 2) {
+            //SUB
+            encrypted = SubstitutionEncrypt(inputText);
+        } else if (decision == 3) {
+            // CAE
+
+        } else if (decision == 4) {
+            // ATB
+            encrypted = AtbashEncrypt(encrypted);
+        }
+
+        encrypted = rngAppend + encrypted;
+
+        //base64 the encrypted string
+        String encoded = Base64.getEncoder().encodeToString(encrypted.getBytes());
+
+
+        return encoded;
     }
 
     /**
@@ -23,7 +57,7 @@ public class Encrypt {
      * @param key
      * @return encryptedOneTimePadStringx
      */
-    public String oneTimePadEncrypt(String inputText, String key) {
+    public static String oneTimePadEncrypt(String inputText, String key) {
 
         int[] stringAlphabetArray = convertToAlphabetIntegerArray(inputText);
         int[] keyAlphabetArray = convertToAlphabetIntegerArray(key);
@@ -60,7 +94,7 @@ public class Encrypt {
      * @param digit
      * @return
      */
-    public char encryptDigit(List numberList, char digit) {
+    public static char encryptDigit(List numberList, char digit) {
 
         if (!Character.isDigit(digit)) {
             return digit;
@@ -92,7 +126,7 @@ public class Encrypt {
      *
      * @return
      */
-    public List generateNumberList() {
+    public static List generateNumberList() {
         List<String> places = Arrays.asList("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine");
         return places;
     }
@@ -104,7 +138,7 @@ public class Encrypt {
      * @param text
      * @return an integer array of alphabet positions.
      */
-    public int[] convertToAlphabetIntegerArray(String text) {
+    public static int[] convertToAlphabetIntegerArray(String text) {
         int[] alphabetArray = new int[text.length()];
         int i = 0;
 
@@ -132,7 +166,7 @@ public class Encrypt {
      * @param key
      * @return
      */
-    public String vigenereEncrypt(String inputText, String key) {
+    public static String vigenereEncrypt(String inputText, String key) {
         String encrypted = "";
         List<String> numberList = generateNumberList();
         for (int i = 0, j = 0; i < inputText.length(); i++) {
@@ -160,7 +194,7 @@ public class Encrypt {
      * @param offset
      * @return
      */
-    public String CaesarEncrypt(String enc, int offset) {
+    public static String CaesarEncrypt(String enc, int offset) {
         offset = offset % 26 + 26;
         String encrypted = "";
         List<String> numberList = generateNumberList();
@@ -187,7 +221,7 @@ public class Encrypt {
      * @param inputText
      * @return
      */
-    public String SubstitutionEncrypt(String inputText) {
+    public static String SubstitutionEncrypt(String inputText) {
         String encrypted = "";
         for (char c : inputText.toCharArray()) {
             int newIntegerValue = (int) c + 69;
@@ -208,7 +242,7 @@ public class Encrypt {
      * @param inputText
      * @return
      */
-    public String AtbashEncrypt(String inputText) {
+    public static String AtbashEncrypt(String inputText) {
         String ordered = generateAtbashOrderedString();
         StringBuffer buffer = new StringBuffer(ordered);
         String reverse = buffer.reverse().toString();
@@ -227,7 +261,7 @@ public class Encrypt {
      * Iterating through applicable ASCII integer values to obtain the character and concatenate it to the string of characters used.
      * @return
      */
-    public String generateAtbashOrderedString() {
+    public static String generateAtbashOrderedString() {
         String ordered = "";
         for (int i = 32; i <= 126; i++) {
             ordered += (char) i;
@@ -241,7 +275,7 @@ public class Encrypt {
      * @param numbers
      * @return
      */
-    public String encryptDigitString(String numbers) {
+    public static String encryptDigitString(String numbers) {
 
         List<String> numberList = generateNumberList();
         String encryptedNumbers = "";

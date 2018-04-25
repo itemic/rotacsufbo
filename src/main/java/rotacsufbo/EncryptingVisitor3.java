@@ -9,6 +9,7 @@ import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import rotacsufbo.encrypt.Encrypt;
 
 import java.util.List;
 
@@ -24,16 +25,16 @@ public class EncryptingVisitor3 extends VoidVisitorAdapter<Object>{
                 System.out.println(ex);
                 StringLiteralExpr sle = (StringLiteralExpr)ex;
                 String original = ex.toString();
-                String encrypted = original; //sejal
-                ex.replace(JavaParser.parseExpression("Decryptor.decrypt(" + encrypted + ")"));
+                String encrypted = Encrypt.encryptAll(original); //sejal
+                ex.replace(JavaParser.parseExpression("Decrypt.decrypt(\"" + encrypted + "\")"));
             } // add elseif int
 
             List<Node> nodes = ex.getChildNodes();
             for (int i = 0; i < nodes.size(); i++) {
                 if (nodes.get(i) instanceof StringLiteralExpr) {
                     String original = nodes.get(i).toString();
-                    String encrypted = original;
-                    nodes.get(i).replace(JavaParser.parseExpression("Decryptor.decrypt(" + encrypted + ")"));
+                    String encrypted = Encrypt.encryptAll(original);
+                    nodes.get(i).replace(JavaParser.parseExpression("Decrypt.decrypt(\"" + encrypted + "\")"));
                 }
             }
         }
