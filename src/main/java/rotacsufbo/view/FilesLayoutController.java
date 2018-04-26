@@ -67,13 +67,16 @@ public class FilesLayoutController {
             shortenedFiles.add(f.toString().substring(dst.toString().length()));
             // OBFUSCATE HERE:
 
-            System.out.println(dst.getName() + " AND " + decryptor.getName());
-            if (dst.getName().equals(decryptor.getName())) {
+            System.out.println(f.getName() + " AND " + decryptor.getName());
+            if (f.getName().equals(decryptor.getName())) {
                 // don't do more obfs
                 try {
                     CompilationUnit unit = JavaParser.parse(f);
                     Obfuscator obfuscator = new Obfuscator(unit);
                     obfuscator.flatten();
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(f));
+                    writer.write(obfuscator.getUnit().toString());
+                    writer.close();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
