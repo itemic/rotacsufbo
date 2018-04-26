@@ -30,9 +30,9 @@ public class Main extends Application{
             System.out.println(f.getName());
             try {
                 CompilationUnit unit = JavaParser.parse(f);
-                unit.accept(new EncryptingVisitor(), null);
-                unit.accept(new EncryptingVisitor2(), null);
-                unit.accept(new EncryptingVisitor3(), null);
+                unit.accept(new VisitorForMethodCallExpressions(), null);
+                unit.accept(new VisitorForVariableDeclarators(), null);
+                unit.accept(new VisitorForAssignExpressions(), null);
                 System.out.println(unit);
 
             } catch (FileNotFoundException e) {

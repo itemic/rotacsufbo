@@ -5,7 +5,7 @@ import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import rotacsufbo.encrypt.Encrypt;
 
-public class EncryptingVisitor2 extends VoidVisitorAdapter<Object> {
+public class VisitorForAssignExpressions extends VoidVisitorAdapter<Object> {
 
     @Override
     public void visit(AssignExpr n, Object args) {

@@ -9,7 +9,7 @@ import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import rotacsufbo.encrypt.Encrypt;
 
-public class EncryptingVisitor extends VoidVisitorAdapter<Object> {
+public class VisitorForVariableDeclarators extends VoidVisitorAdapter<Object> {
 
     @Override
     public void visit(VariableDeclarator n, Object args) {

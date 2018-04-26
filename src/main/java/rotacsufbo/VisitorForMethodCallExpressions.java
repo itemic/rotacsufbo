@@ -14,7 +14,7 @@ import rotacsufbo.encrypt.Encrypt;
 import java.util.List;
 
 
-public class EncryptingVisitor3 extends VoidVisitorAdapter<Object>{
+public class VisitorForMethodCallExpressions extends VoidVisitorAdapter<Object>{
 
     @Override
     public void visit(MethodCallExpr n, Object args) {
