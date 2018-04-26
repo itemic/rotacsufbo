@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Decrypt {
 
-    public static String decrypt(String encrypted) {
+    public static String decrypt(String encrypted) { 
         final int ENCRYPTION_ALGORITHMS = 5;
 
         //b64 decode
@@ -194,9 +194,9 @@ public class Decrypt {
                 alphabetArray[i] = (int) c;
             } else {
                 if (Character.isUpperCase(c)) {
-                    alphabetArray[i] = ((int) c - 'A') * -1;
+                    alphabetArray[i] = ((int) c - 'A') * -1 - 1;
                 } else {
-                    alphabetArray[i] = (int) c - 'a';
+                    alphabetArray[i] = (int) c - 'a' + 1;
                 }
 
             }
@@ -256,21 +256,22 @@ public class Decrypt {
         String decrypted = "";
 
         for (int i = 0, j = 0; i < stringAlphabetArray.length; i++) {
-            if (stringAlphabetArray[i] > 26) {
+            if (stringAlphabetArray[i] > 27) {
                 decrypted += decryptDigit(numberList, (char) stringAlphabetArray[i]);
             } else if (stringAlphabetArray[i] < 0) {
-                decryptedIntArray[i] = (stringAlphabetArray[i] * -1 - keyAlphabetArray[j]) % 26;
-                if (decryptedIntArray[i] < 0) {
+
+                decryptedIntArray[i] = (stringAlphabetArray[i] * -1 - keyAlphabetArray[j]) % 26 - 1;
+                if (decryptedIntArray[i] <= 0) {
                     decryptedIntArray[i] += 26;
                 }
-                decrypted += (char) (decryptedIntArray[i] + 65);
+                decrypted += (char) (decryptedIntArray[i] + 64);
                 j = ++j % key.length();
             } else {
-                decryptedIntArray[i] = (stringAlphabetArray[i] - keyAlphabetArray[j]) % 26;
-                if (decryptedIntArray[i] < 0) {
+                decryptedIntArray[i] = (stringAlphabetArray[i] - keyAlphabetArray[j]) % 26 - 1;
+                if (decryptedIntArray[i] <= 0) {
                     decryptedIntArray[i] += 26;
                 }
-                decrypted += (char) (decryptedIntArray[i] + 97);
+                decrypted += (char) (decryptedIntArray[i] + 96);
                 j = ++j % key.length();
             }
         }
