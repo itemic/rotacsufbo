@@ -73,7 +73,7 @@ public class Encrypt {
      */
     public static String oneTimePadEncrypt(String inputText, String key) {
 
-        int[] stringAlphabetArray = convertToAlphabetIntegerArray(inputText);
+          int[] stringAlphabetArray = convertToAlphabetIntegerArray(inputText);
         int[] keyAlphabetArray = convertToAlphabetIntegerArray(key);
 
         List<String> numberList = generateNumberList();
@@ -83,7 +83,7 @@ public class Encrypt {
         for (int i = 0, j = 0; i < stringAlphabetArray.length; i++) {
             if (stringAlphabetArray[i] > 26) {
                 encryptedString += encryptDigit(numberList, (char) stringAlphabetArray[i]);
-            } else if (stringAlphabetArray[i] < 0) {
+            } else if (stringAlphabetArray[i] <= 0) {
                 encryptedIntArray[i] = (stringAlphabetArray[i] * -1 + keyAlphabetArray[j]) % 26;
                 encryptedString += (char) (encryptedIntArray[i] + 65);
                 j = ++j % key.length();
@@ -153,7 +153,7 @@ public class Encrypt {
      * @return an integer array of alphabet positions.
      */
     public static int[] convertToAlphabetIntegerArray(String text) {
-        int[] alphabetArray = new int[text.length()];
+     int[] alphabetArray = new int[text.length()];
         int i = 0;
 
         for (char c : text.toCharArray()) {
@@ -161,11 +161,10 @@ public class Encrypt {
                 alphabetArray[i] = (int) c;
             } else {
                 if (Character.isUpperCase(c)) {
-                    alphabetArray[i] = ((int) c - 'A') * -1;
+                    alphabetArray[i] = ((int) c - 'A') * -1 - 1;
                 } else {
-                    alphabetArray[i] = (int) c - 'a';
+                    alphabetArray[i] = ((int) c - 'a' + 1);
                 }
-
             }
             i++;
         }
