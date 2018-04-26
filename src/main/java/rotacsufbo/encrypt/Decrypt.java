@@ -36,7 +36,6 @@ public class Decrypt {
             // ATB
             decryptedString = dec04(decryptedString, key);
         }
-        System.out.println("Decrypted: " + decryptedString);
         return decryptedString;
     }
 

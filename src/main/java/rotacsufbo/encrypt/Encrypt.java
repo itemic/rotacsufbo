@@ -50,11 +50,9 @@ public class Encrypt {
 
         }
 
-        System.out.println("Pre-encoding: " + encrypted);
         //base64 the encrypted string
         String encoded = Base64.getEncoder().encodeToString(encrypted.getBytes());
 
-        System.out.println("Encoded: " + encoded);
         return encoded;
     }
 

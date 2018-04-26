@@ -6,6 +6,10 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 
 import java.io.*;
 
+/**
+ * Main obfuscator class that takes a compilation unit and performs javaparser activities
+ * on it to alter the actual CU.
+ */
 public class Obfuscator {
 
     private CompilationUnit unit;
@@ -25,35 +29,24 @@ public class Obfuscator {
         }
     }
 
+    /**
+     * Removes all comments
+     */
     public void decommentate() {
-        Decommentator decommentator = new Decommentator();
+//        Decommentator decommentator = new Decommentator();
         unit.accept(new Decommentator(), null);
     }
 
+    /**
+     * Go through and change all Strings into decryption strings
+     */
     public void encryptStrings() {
-        // lol do nothing
+
         unit.accept(new VisitorForMethodCallExpressions(), null);
         unit.accept(new VisitorForVariableDeclarators(), null);
         unit.accept(new VisitorForAssignExpressions(), null);
     }
 
-    public void insertDecryptor() {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\Terran\\Projects\\rotacsufbo\\src\\main\\java\\rotacsufbo\\encrypt\\Decrypt.java"));
-            BufferedWriter writer = new BufferedWriter(new FileWriter(new File("C:\\Users\\Terran\\Projects\\decrypt.java")));
-
-            String line = null;
-            while ((line=reader.readLine()) != null) {
-                writer.write(line + "\n");
-            }
-            reader.close();
-            writer.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public CompilationUnit getUnit() {
         return unit;

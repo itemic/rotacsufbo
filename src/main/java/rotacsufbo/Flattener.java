@@ -10,6 +10,9 @@ import com.github.javaparser.ast.stmt.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Flattens classes
+ */
 public class Flattener {
     private ClassOrInterfaceDeclaration classDeclaration;
 
@@ -27,6 +30,10 @@ public class Flattener {
         methods = classDeclaration.getMethods();
     }
 
+    /**
+     * Create statements and declarations for each method
+     * If there's a declaration with initialization, split them
+     */
     public void createStatements() {
         for (MethodDeclaration m: methods) {
 
@@ -34,7 +41,6 @@ public class Flattener {
             List<Statement> statement = new ArrayList<>();
             List<Statement> declaration = new ArrayList<>();
             List<String> uuid = new ArrayList<>();
-            int uuidMock = 0;
             //Get method body
             Optional<BlockStmt> body = m.getBody();
 
@@ -42,10 +48,7 @@ public class Flattener {
                 NodeList<Statement> bodyStatements = body.get().getStatements();
                 for (Statement s: bodyStatements) {
                     //First add a UUID
-                    uuid.add(EvilEncoder.uuidEncode(UUID.randomUUID().toString()));
-//                    uuid.add(uuidMock + "");
-//                    uuidMock++;
-
+                    uuid.add(UuidEncoder.uuidEncode(UUID.randomUUID().toString()));
                     //Don't break down the values in the for loop. Just treat it as a single statement.
                     if (s.isForStmt() || s.isForeachStmt()) {
                         statement.add(s);
@@ -57,7 +60,6 @@ public class Flattener {
                             for (VariableDeclarator v : variableDeclarators) {
                                 String def = v.getType() + " " + v.getName() + " = " + DefaultsHelper.getDefault(v.getTypeAsString()) + ";";
                                 String use = v.toString() + ";";
-                                System.out.println("parsing... " + def);
                                 declaration.add(JavaParser.parseStatement(def));
                                 statement.add(JavaParser.parseStatement(use));
 
@@ -68,9 +70,8 @@ public class Flattener {
                 }
             }
 
-
-            uuid.add(EvilEncoder.uuidEncode(UUID.randomUUID().toString()));
-            System.out.println("uuid size: " + uuid.size());
+            //add a random UUID so that there's a statement to break at
+            uuid.add(UuidEncoder.uuidEncode(UUID.randomUUID().toString()));
 
             statements.add(statement);
             declarations.add(declaration);
@@ -78,6 +79,10 @@ public class Flattener {
         }
     }
 
+    /**
+     * Converts a method into one that uses switch statements
+     * Requires manual removal of extraneous branching after a return
+     */
     public void createSwitch() {
         for (MethodDeclaration m: methods) {
             SwitchStmt switchStmt = new SwitchStmt();
@@ -90,10 +95,8 @@ public class Flattener {
             String startSwitchUuid = uuidForMethod.get(switchToValueIndex);
             String switchToValue = uuidForMethod.get(switchToValueIndex);
 
-            OpaquePredator op = new OpaquePredator();
+            OpaquePredicates op = new OpaquePredicates();
 
-            System.out.println("This method "+ m.getNameAsString() +" has " + statements.get(methods.indexOf(m)).size() + " statements.");
-            System.out.println("This method has " + uuidForMethod.size() + " UUID values");
 
             // Create a switch entry for each statement
             for (Statement stmt: statements.get(methods.indexOf(m))) {
@@ -112,7 +115,7 @@ public class Flattener {
                 boolean randomChoice = ThreadLocalRandom.current().nextBoolean();
                 Statement randomStatement = statements.get(methods.indexOf(m)).get(ThreadLocalRandom.current().nextInt(0, statements.get(methods.indexOf(m)).size()));
                 Statement correctSwitch = JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + switchToValue + "\";");
-                Statement incorrectSwitch = JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + EvilEncoder.uuidEncode(UUID.randomUUID().toString()) + "\";");
+                Statement incorrectSwitch = JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + UuidEncoder.uuidEncode(UUID.randomUUID().toString()) + "\";");
                 BlockStmt correctWrapper = new BlockStmt();
                 correctWrapper.addStatement(stmt);
                 correctWrapper.addStatement(correctSwitch);
@@ -138,19 +141,19 @@ public class Flattener {
                 switchEntries.add(switchEntry);
             }
 
-//             Add random switch statements to be distracting
-            int statementCount = statements.get(methods.indexOf(m)).size();
+//             Add random switch statements to be distracting, but not too much to increase size
+            int statementCount = statements.get(methods.indexOf(m)).size() / 2;
             for (int rng = 0; rng < statementCount; rng++) {
                 SwitchEntryStmt entryStmt = new SwitchEntryStmt();
                 NodeList<Statement> entryStatements = new NodeList<>();
-                entryStmt.setLabel(JavaParser.parseExpression("\"" + EvilEncoder.uuidEncode(UUID.randomUUID().toString()) + "\""));
+                entryStmt.setLabel(JavaParser.parseExpression("\"" + UuidEncoder.uuidEncode(UUID.randomUUID().toString()) + "\""));
 
                 Statement randomStatement = statements.get(methods.indexOf(m)).get(ThreadLocalRandom.current().nextInt(0, statements.get(methods.indexOf(m)).size()));
                 entryStatements.add(randomStatement);
 
                 // make sure random statements don't return;
                 if (!randomStatement.isReturnStmt()) {
-                    entryStatements.add(JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + EvilEncoder.uuidEncode(UUID.randomUUID().toString()) + "\";"));
+                    entryStatements.add(JavaParser.parseStatement(SWITCH_SELECTOR + " = \"" + UuidEncoder.uuidEncode(UUID.randomUUID().toString()) + "\";"));
                     entryStatements.add(JavaParser.parseStatement("break;"));
                 }
 

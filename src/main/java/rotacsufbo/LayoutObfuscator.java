@@ -7,8 +7,12 @@ import java.io.IOException;
 
 public class LayoutObfuscator {
 
-    //TODO: DOES NOT WORK WITH @ANNOTATIONS
-    // ^ that is a lie i fixed it
+    /**
+     * Takes a file and strips out all newlines, except when needed for annotations
+     * @param javaSource
+     * @return
+     * @throws IOException
+     */
     public String intoALine(File javaSource) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(javaSource));
         StringBuilder oneLineFile = new StringBuilder();

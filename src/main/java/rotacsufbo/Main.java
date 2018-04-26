@@ -12,42 +12,16 @@ import rotacsufbo.view.StartLayoutController;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Entry point and GUI setup code
+ */
 public class Main extends Application{
 
     private Stage primaryStage;
     private static BorderPane rootLayout;
 
     public static void main(String[] args) {
-        FileExplorer fe = new FileExplorer();
-        // can we make it so we don't specify this??
-        File root = new File("C:\\Users\\Terran\\IdeaProjects\\Bepis");
-        fe.traverseFolder(root);
-
-        ArrayList<File> files = fe.getFiles();
-//        for (File f: files) {
-//            System.out.println(f.getName());
-//            try {
-//                CompilationUnit unit = JavaParser.parse(f);
-//                unit.accept(new VisitorForMethodCallExpressions(), null);
-//                unit.accept(new VisitorForVariableDeclarators(), null);
-//                unit.accept(new VisitorForAssignExpressions(), null);
-//                System.out.println(unit);
-//
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//        }
         launch(args);
-
-//        File f = new File("C:\\Users\\Terran\\Projects\\rotacsufbo\\src\\main\\java\\rotacsufbo\\encrypt\\Decrypt.java");
-//        try {
-//            CompilationUnit cu = JavaParser.parse(f);
-//            Obfuscator obfuscator = new Obfuscator(cu);
-//            obfuscator.flatten();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-
     }
 
 

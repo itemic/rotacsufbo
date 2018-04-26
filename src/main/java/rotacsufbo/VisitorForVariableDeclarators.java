@@ -11,6 +11,9 @@ import rotacsufbo.encrypt.Encrypt;
 
 import java.util.Optional;
 
+/**
+ * Visit and encrypt variable declarators (e.g. String b = "value")
+ */
 public class VisitorForVariableDeclarators extends VoidVisitorAdapter<Object> {
 
     @Override
@@ -18,18 +21,14 @@ public class VisitorForVariableDeclarators extends VoidVisitorAdapter<Object> {
 
 
         if (n.getTypeAsString().equals("String")) {
-            // convert "STR" to Decryptor.decrypt(ENCRYPTED)
-
             Optional<Expression> init = n.getInitializer();
+            // Ensure that there's an initializer
             if (init.isPresent()) {
                 String originalString = n.getInitializer().get().toString();
-                System.out.println("init: " + originalString);
-
                 if (originalString.charAt(0) == '"' && originalString.charAt(originalString.length()-1) == '"') {
                     originalString = originalString.substring(1, originalString.length()-1);
 
                     String encryptedString = Encrypt.encryptAll(originalString); // here we encrypt it with sejal
-
 
                     System.out.println("Decrypt.decrypt(\"" + encryptedString + "\")");
 
@@ -42,9 +41,6 @@ public class VisitorForVariableDeclarators extends VoidVisitorAdapter<Object> {
 
 
         }
-
-        //TODO: Integers
-
 
 
     }

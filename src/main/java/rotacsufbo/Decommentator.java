@@ -2,10 +2,7 @@ package rotacsufbo;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.comments.BlockComment;
-import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.comments.LineComment;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
@@ -20,10 +17,10 @@ public class Decommentator extends VoidVisitorAdapter<Object>{
     public void visit(CompilationUnit n, Object args) {
         super.visit(n, args);
         List<Node> childNodes = n.getChildNodes();
-        kill(childNodes);
+        kill(childNodes); // visit and go through nodes to add them to list to remove
         System.out.println("A custom string" + n.toString());
         for (Node child: nodeCollection) {
-            child.remove();
+            child.remove(); // remove the nodes that have been collected
         }
 
     }
@@ -35,6 +32,10 @@ public class Decommentator extends VoidVisitorAdapter<Object>{
     }
 
 
+    /**
+     * Remove comment nodes by adding any of them to a list.
+     * @param n Node to remove comments from
+     */
     private void kill(Node n) {
         n.removeComment();
         for (Node child: n.getChildNodes()) {

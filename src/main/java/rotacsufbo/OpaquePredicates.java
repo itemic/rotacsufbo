@@ -6,16 +6,24 @@ import com.github.javaparser.ast.expr.Expression;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class OpaquePredator {
+/**
+ * Opaque predicates are essentially more complicated ways of representing a boolean
+ */
+public class OpaquePredicates {
 
 //    private ArrayList<Integer> opaques;
     private int[] opaques;
     //element 0, 1 form a pair, 2, 3 form a pair IE = [0] mod [1], [2] mod [3]
 
-    public OpaquePredator() {
+    public OpaquePredicates() {
         makeOpaques(); // max length is 24 (0-23);
     }
 
+    /**
+     * Create an expression that is essentially true
+     * @param name
+     * @return
+     */
     public Expression makeTrueExpression(String name) {
         boolean b = ThreadLocalRandom.current().nextBoolean();
         int rand;
@@ -36,6 +44,11 @@ public class OpaquePredator {
 
     }
 
+    /**
+     * Create an expression that is essentially false
+     * @param name
+     * @return
+     */
     public Expression makeFalseExpression(String name) {
         boolean b = ThreadLocalRandom.current().nextBoolean();
         int rand;
@@ -56,6 +69,9 @@ public class OpaquePredator {
 
     }
 
+    /**
+     * Create the array to hold "random" numbers
+     */
     private void makeOpaques() {
         //generate pairs
         // so we can check if VALUE % [ELEM0] = [ELEM1]
@@ -67,8 +83,6 @@ public class OpaquePredator {
         int remainder1 = 5; // remainder
         int modBy2 = 7;
         int remainder2 = 5;
-
-
 
 
         boolean flag = true;
