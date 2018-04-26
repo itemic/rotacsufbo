@@ -15,6 +15,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
+import org.apache.commons.io.FileUtils;
 import rotacsufbo.*;
 
 import java.io.*;
@@ -58,7 +59,7 @@ public class FilesLayoutController {
         }
     }
 
-    public void initialize(File dst) {
+    public void initialize(File dst, File decryptor, File decryptorLoc) {
         FileExplorer fe = new FileExplorer();
         fe.traverseFolder(dst);
         ArrayList<String> shortenedFiles = new ArrayList<>();
@@ -66,20 +67,29 @@ public class FilesLayoutController {
             shortenedFiles.add(f.toString().substring(dst.toString().length()));
             // OBFUSCATE HERE:
 
-            try {
-                CompilationUnit unit = JavaParser.parse(f);
-                Obfuscator obfuscator = new Obfuscator(unit);
-                obfuscator.encryptStrings();
-                obfuscator.decommentate();
-                obfuscator.flatten();
+            System.out.println(dst.getName() + " AND " + decryptor.getName());
+            if (dst.getName().equals(decryptor.getName())) {
+                // don't do more obfs
+            } else {
 
-                BufferedWriter writer = new BufferedWriter(new FileWriter(f));
-                writer.write(obfuscator.getUnit().toString());
-                writer.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+                try {
+                    CompilationUnit unit = JavaParser.parse(f);
+                    Obfuscator obfuscator = new Obfuscator(unit);
+                    obfuscator.encryptStrings();
+                    obfuscator.decommentate();
+                    obfuscator.flatten();
+
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(f));
+                    writer.write(obfuscator.getUnit().toString());
+                    writer.close();
+
+                    // Once everything is done we re-write the Decryptor in
+                    FileUtils.copyFileToDirectory(decryptor, decryptorLoc);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         sourceFiles = FXCollections.observableArrayList(shortenedFiles);

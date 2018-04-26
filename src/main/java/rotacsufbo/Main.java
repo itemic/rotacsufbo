@@ -38,6 +38,16 @@ public class Main extends Application{
 //            }
 //        }
         launch(args);
+
+//        File f = new File("C:\\Users\\Terran\\Projects\\rotacsufbo\\src\\main\\java\\rotacsufbo\\encrypt\\Decrypt.java");
+//        try {
+//            CompilationUnit cu = JavaParser.parse(f);
+//            Obfuscator obfuscator = new Obfuscator(cu);
+//            obfuscator.flatten();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+
     }
 
 

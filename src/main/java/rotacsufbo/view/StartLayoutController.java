@@ -1,5 +1,7 @@
 package rotacsufbo.view;
 
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ast.CompilationUnit;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,8 +15,11 @@ import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
 import rotacsufbo.FileExplorer;
 import rotacsufbo.Main;
+import rotacsufbo.Obfuscator;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.CopyOption;
@@ -26,6 +31,8 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 public class StartLayoutController implements Initializable{
     private File sourceFileOrDirectory;
     private File destinationFileOrDirectory;
+    private File decryptor;
+    private File decryptorLoc;
 
     @FXML
     private Label srcFileLabel;
@@ -41,6 +48,18 @@ public class StartLayoutController implements Initializable{
 
     @FXML
     private Button nextStepBtn;
+
+    @FXML
+    private Label decryptorFileLabel;
+
+    @FXML
+    private Button decryptorFilePickerBtn;
+
+    @FXML
+    private Label declocLabel;
+
+    @FXML
+    private Button decryptorLocationFileBtn;
 
 
     @FXML
@@ -71,6 +90,17 @@ public class StartLayoutController implements Initializable{
         }
     }
 
+    @FXML
+    void selectDecryptorFile() {
+        FileChooser fc = new FileChooser();
+        decryptor = fc.showOpenDialog(new Stage());
+    }
+
+    @FXML
+    void selectDecryptorLocationFile() {
+        DirectoryChooser dc = new DirectoryChooser();
+        decryptorLoc = dc.showDialog(new Stage());
+    }
 
 
 
@@ -80,7 +110,18 @@ public class StartLayoutController implements Initializable{
         if (sourceFileOrDirectory != null && destinationFileOrDirectory != null) {
                 try {
 
-                    //First copy everything in source into destination!
+
+                    CompilationUnit unit = JavaParser.parse(decryptor);
+                    Obfuscator obfuscator = new Obfuscator(unit);
+                    obfuscator.flatten();
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(decryptor));
+                    writer.write(obfuscator.getUnit().toString());
+                    writer.close();
+
+                    // At this point, the Decryptor is obfuscated.
+
+                    //First copy everything in source into destination!;
+                    FileUtils.copyFileToDirectory(decryptor, decryptorLoc);
                     FileUtils.copyDirectory(sourceFileOrDirectory, destinationFileOrDirectory);
 
 
@@ -89,7 +130,7 @@ public class StartLayoutController implements Initializable{
                     loader.setLocation(Main.class.getResource("view/FilesLayout.fxml"));
                     BorderPane filesPane = (BorderPane)loader.load();
                     FilesLayoutController controller = loader.<FilesLayoutController>getController();
-                    controller.initialize(destinationFileOrDirectory); //where we want to write to
+                    controller.initialize(destinationFileOrDirectory, decryptor, decryptorLoc); //where we want to write to
                     BorderPane root = Main.getRoot();
                     root.setCenter(filesPane);
                 } catch (IOException e) {

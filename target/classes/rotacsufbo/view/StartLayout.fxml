@@ -40,6 +40,24 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+               <children>
+                  <Label fx:id="decryptorFileLabel" text="Label" />
+                  <Button fx:id="decryptorFilePickerBtn" mnemonicParsing="false" onAction="#selectDecryptorFile" text="Decryptor" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+               <children>
+                  <Label fx:id="declocLabel" text="Label" />
+                  <Button fx:id="decryptorLocationFileBtn" mnemonicParsing="false" onAction="#selectDecryptorLocationFile" text="DecryptorLocation" />
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
             <Button fx:id="nextStepBtn" mnemonicParsing="false" onAction="#confirmFiles" text="NEXT" />
          </children>
       </VBox>

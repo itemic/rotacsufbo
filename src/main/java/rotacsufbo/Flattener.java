@@ -57,7 +57,7 @@ public class Flattener {
                             for (VariableDeclarator v : variableDeclarators) {
                                 String def = v.getType() + " " + v.getName() + " = " + DefaultsHelper.getDefault(v.getTypeAsString()) + ";";
                                 String use = v.toString() + ";";
-
+                                System.out.println("parsing... " + def);
                                 declaration.add(JavaParser.parseStatement(def));
                                 statement.add(JavaParser.parseStatement(use));
 

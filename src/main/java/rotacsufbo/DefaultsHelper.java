@@ -23,7 +23,7 @@ public class DefaultsHelper {
             case "double":
                 return 0.0d;
             case "char":
-                return '\u0000';
+                return 'a';
             default:
                 return null;
 
