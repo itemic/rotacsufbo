@@ -60,6 +60,8 @@ public class FilesLayoutController {
     }
 
     public void initialize(File dst, File decryptor, File decryptorLoc) {
+
+        // Go through all Java files and obfuscate
         FileExplorer fe = new FileExplorer();
         fe.traverseFolder(dst);
         ArrayList<String> shortenedFiles = new ArrayList<>();
@@ -69,10 +71,11 @@ public class FilesLayoutController {
 
             System.out.println(f.getName() + " AND " + decryptor.getName());
             if (f.getName().equals(decryptor.getName())) {
-                // don't do more obfs
+                // Control-flow flatten and remove comments from the decryptor
                 try {
                     CompilationUnit unit = JavaParser.parse(f);
                     Obfuscator obfuscator = new Obfuscator(unit);
+                    obfuscator.decommentate();
                     obfuscator.flatten();
                     BufferedWriter writer = new BufferedWriter(new FileWriter(f));
                     writer.write(obfuscator.getUnit().toString());
@@ -85,6 +88,8 @@ public class FilesLayoutController {
             } else {
 
                 try {
+
+                    // Use all possible methods on any other files
                     CompilationUnit unit = JavaParser.parse(f);
                     Obfuscator obfuscator = new Obfuscator(unit);
                     obfuscator.encryptStrings();
@@ -122,7 +127,6 @@ public class FilesLayoutController {
                     codeTextArea.setText(sb.toString());
 
 
-                    System.out.println(dst + newValue);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {

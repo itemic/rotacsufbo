@@ -50,13 +50,8 @@ public class StartLayoutController implements Initializable{
     private Button nextStepBtn;
 
     @FXML
-    private Label decryptorFileLabel;
-
-    @FXML
     private Button decryptorFilePickerBtn;
 
-    @FXML
-    private Label declocLabel;
 
     @FXML
     private Button decryptorLocationFileBtn;
@@ -107,21 +102,13 @@ public class StartLayoutController implements Initializable{
 
     @FXML
     public void confirmFiles() {
-        if (sourceFileOrDirectory != null && destinationFileOrDirectory != null) {
+        if (sourceFileOrDirectory != null && destinationFileOrDirectory != null && decryptor != null && decryptorLoc != null) {
                 try {
 
-
-//                    CompilationUnit unit = JavaParser.parse(decryptor);
-//                    Obfuscator obfuscator = new Obfuscator(unit);
-//                    obfuscator.flatten();
-//                    BufferedWriter writer = new BufferedWriter(new FileWriter(decryptor));
-//                    writer.write(obfuscator.getUnit().toString());
-//                    writer.close();
-
-                    // At this point, the Decryptor is obfuscated.
-
-                    //First copy everything in source into destination!;
+                    // Copy decryptor into where it belongs in original source
                     FileUtils.copyFileToDirectory(decryptor, decryptorLoc);
+
+                    // Copy the whole source directory to new place where we overwrite
                     FileUtils.copyDirectory(sourceFileOrDirectory, destinationFileOrDirectory);
 
 
@@ -136,19 +123,6 @@ public class StartLayoutController implements Initializable{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-//                System.out.println("GOOD");
-//                FileExplorer fe = new FileExplorer();
-//                fe.traverseFolder(sourceFileOrDirectory);
-//                System.out.println("top level @: " + exportFileOrDirectory.getName());
-//                for (File f: fe.getFiles()) {
-//                    System.out.println("FILE: " + f);
-//                    // so we can preserve folder structure!
-//                    System.out.println(f.toString().substring(sourceFileOrDirectory.toString().length()));
-//                    //TODO: preserve folder structure
-//                    //TODO: actually this stuff will be done in the other controller but for now this is fine :)
-
-                System.out.println("BEP");
 
 
 
