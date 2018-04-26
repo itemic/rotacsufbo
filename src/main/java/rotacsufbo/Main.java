@@ -26,22 +26,22 @@ public class Main extends Application{
         fe.traverseFolder(root);
 
         ArrayList<File> files = fe.getFiles();
-        for (File f: files) {
-            System.out.println(f.getName());
-            try {
-                CompilationUnit unit = JavaParser.parse(f);
-                unit.accept(new VisitorForMethodCallExpressions(), null);
-                unit.accept(new VisitorForVariableDeclarators(), null);
-                unit.accept(new VisitorForAssignExpressions(), null);
-                System.out.println(unit);
+//        for (File f: files) {
+//            System.out.println(f.getName());
+//            try {
+//                CompilationUnit unit = JavaParser.parse(f);
+//                unit.accept(new VisitorForMethodCallExpressions(), null);
+//                unit.accept(new VisitorForVariableDeclarators(), null);
+//                unit.accept(new VisitorForAssignExpressions(), null);
+//                System.out.println(unit);
+//
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
 
-
-//        launch(args);
+        launch(args);
     }
 
 

@@ -28,8 +28,11 @@ public class Obfuscator {
         unit.accept(new Decommentator(), null);
     }
 
-    public void encryptConstants() {
+    public void encryptStrings() {
         // lol do nothing
+        unit.accept(new VisitorForMethodCallExpressions(), null);
+        unit.accept(new VisitorForVariableDeclarators(), null);
+        unit.accept(new VisitorForAssignExpressions(), null);
     }
 
     public CompilationUnit getUnit() {

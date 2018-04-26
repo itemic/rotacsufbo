@@ -69,6 +69,7 @@ public class FilesLayoutController {
             try {
                 CompilationUnit unit = JavaParser.parse(f);
                 Obfuscator obfuscator = new Obfuscator(unit);
+                obfuscator.encryptStrings();
                 obfuscator.decommentate();
                 obfuscator.flatten();
 

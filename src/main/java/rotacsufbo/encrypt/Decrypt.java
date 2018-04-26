@@ -1,7 +1,6 @@
 package rotacsufbo.encrypt;
 
 
-import java.io.CharConversionException;
 import java.util.*;
 
 public class Decrypt {
@@ -28,19 +27,19 @@ public class Decrypt {
 
         if (encryptorUsed == 0) {
             // OTP
-            decryptedString = oneTimePadDecrypt(decryptedString, key);
+            decryptedString = dec05(decryptedString, key);
         } else if (encryptorUsed == 1) {
             // VIG
-            decryptedString = vigenereDecrypt(decryptedString, key);
+            decryptedString = dec01(decryptedString, key);
         } else if (encryptorUsed == 2) {
             // SUB
-            decryptedString = SubstitutionDecrypt(decryptedString);
+            decryptedString = dec02(decryptedString, key);
         } else if (encryptorUsed == 3 ) {
             // CAE
-            decryptedString = CaesarDecrypt(decryptedString, 10);
+            decryptedString = dec03(decryptedString, 10);
         } else if (encryptorUsed == 4) {
             // ATB
-            decryptedString = AtbashDecrypt(decryptedString);
+            decryptedString = dec04(decryptedString, key);
         }
         System.out.println("Decrypted: " + decryptedString);
         return decryptedString;
@@ -63,7 +62,7 @@ public class Decrypt {
      * @param key
      * @return
      */
-    public static String vigenereDecrypt(String encryptedText, final String key) {
+    public static String dec01(String encryptedText, final String key) {
         String decryptedText = "";
         List<String> numberList = generateNumberList();
         for (int i = 0, j = 0; i < encryptedText.length(); i++) {
@@ -91,7 +90,7 @@ public class Decrypt {
      * @param encryptedText
      * @return
      */
-    public static String SubstitutionDecrypt(String encryptedText) {
+    public static String dec02(String encryptedText, String key) {
         String decryptedString = "";
         for (char c : encryptedText.toCharArray()) {
             int newIntegerValue = (int) c - 69;
@@ -111,7 +110,7 @@ public class Decrypt {
      * @param encryptedText
      * @return
      */
-    public static String AtbashDecrypt(String encryptedText) {
+    public static String dec04(String encryptedText, String key) {
         String ordered = generateAtbashOrderedString();
         StringBuffer buffer = new StringBuffer(ordered);
         String reverse = buffer.reverse().toString();
@@ -163,7 +162,7 @@ public class Decrypt {
      * @param offset
      * @return
      */
-    public static String CaesarDecrypt(String encrypted, int offset) {
+    public static String dec03(String encrypted, int offset) {
 
         offset = 26 - offset;
 
@@ -252,7 +251,7 @@ public class Decrypt {
      * @param key
      * @return
      */
-    public static String oneTimePadDecrypt(String encryptedText, String key) {
+    public static String dec05(String encryptedText, String key) {
 
         int[] stringAlphabetArray = convertToAlphabetIntegerArray(encryptedText);
         int[] keyAlphabetArray = convertToAlphabetIntegerArray(key);
