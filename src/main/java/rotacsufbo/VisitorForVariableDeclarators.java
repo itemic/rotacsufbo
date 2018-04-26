@@ -18,8 +18,14 @@ public class VisitorForVariableDeclarators extends VoidVisitorAdapter<Object> {
         if (n.getTypeAsString().equals("String")) {
             // convert "STR" to Decryptor.decrypt(ENCRYPTED)
 
+
             String originalString = n.getInitializer().get().toString();
+            System.out.println("init: " + originalString);
+            originalString = originalString.substring(1, originalString.length()-1);
+
             String encryptedString = Encrypt.encryptAll(originalString); // here we encrypt it with sejal
+
+
             System.out.println("Decrypt.decrypt(\"" + encryptedString + "\")");
 
             n.setInitializer(JavaParser.parseExpression("Decrypt.decrypt(\"" + encryptedString + "\")"));

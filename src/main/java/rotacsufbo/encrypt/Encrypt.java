@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Encrypt {
 
+    public static final String KEY = "nrhavqujcmmxmgoelveslhxnfdzabzsqmbmmlrvrmhzriptiaz";
 
     public Encrypt() {
     }
@@ -19,29 +20,40 @@ public class Encrypt {
 
         // Actually encrypt the string
         int decision = rngDecider % ENCRYPTION_ALGORITHMS;
+
         String encrypted = inputText;
+
         if (decision == 0) {
             // OTP
+            encrypted = oneTimePadEncrypt(inputText, "nrhavqujcmmxmgoelveslhxnfdzabzsqmbmmlrvrmhzriptiaz");
+            encrypted = rngAppend + encrypted + "nrhavqujcmmxmgoelveslhxnfdzabzsqmbmmlrvrmhzriptiaz";
         } else if (decision == 1) {
             // VIG
+            encrypted = vigenereEncrypt(inputText, "dsotfoqmyoowvebrthrnfzssnqiffawblafgspttchidmlhhqi");
+            encrypted = rngAppend + encrypted + "dsotfoqmyoowvebrthrnfzssnqiffawblafgspttchidmlhhqi";
 
         } else if (decision == 2) {
             //SUB
             encrypted = SubstitutionEncrypt(inputText);
+            encrypted = rngAppend + encrypted + "sfjlxeamugtqvyvpejybxshpiyyzgmqlhpyzsnemtoyvltacqi";
+
         } else if (decision == 3) {
             // CAE
+            encrypted = CaesarEncrypt(inputText, 10);
+            encrypted = rngAppend + encrypted + "edrupzhfsngxeqhfqrcdsatdvlkhasevvqpqwtdzzdouzszdxw";
 
         } else if (decision == 4) {
             // ATB
-            encrypted = AtbashEncrypt(encrypted);
+            encrypted = AtbashEncrypt(inputText);
+            encrypted = rngAppend + encrypted + "ungjiwozgiuejcooxxrpepltrbivsuwkekxtjmqbtmzopsbobl";
+
         }
 
-        encrypted = rngAppend + encrypted;
-
+        System.out.println("Pre-encoding: " + encrypted);
         //base64 the encrypted string
         String encoded = Base64.getEncoder().encodeToString(encrypted.getBytes());
 
-
+        System.out.println("Encoded: " + encoded);
         return encoded;
     }
 

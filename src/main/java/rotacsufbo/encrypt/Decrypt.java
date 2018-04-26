@@ -1,5 +1,6 @@
 package rotacsufbo.encrypt;
 
+
 import java.io.CharConversionException;
 import java.util.*;
 
@@ -20,22 +21,28 @@ public class Decrypt {
         int encryptorUsed = 10 * Character.getNumericValue(decodedStr.charAt(0)) + Character.getNumericValue(decodedStr.charAt(1));
         encryptorUsed %= ENCRYPTION_ALGORITHMS;
 
-        String decryptedString = decodedStr.substring(2);
+        String decryptedString = decodedStr.substring(2, decodedStr.length()-50);
+        String key = decodedStr.substring(decodedStr.length()-50);
+        //        decryptedString=decryptedString.substring(0, decryptedString.length()-50);
+
 
         if (encryptorUsed == 0) {
             // OTP
+            decryptedString = oneTimePadDecrypt(decryptedString, key);
         } else if (encryptorUsed == 1) {
             // VIG
+            decryptedString = vigenereDecrypt(decryptedString, key);
         } else if (encryptorUsed == 2) {
             // SUB
             decryptedString = SubstitutionDecrypt(decryptedString);
         } else if (encryptorUsed == 3 ) {
             // CAE
+            decryptedString = CaesarDecrypt(decryptedString, 10);
         } else if (encryptorUsed == 4) {
             // ATB
             decryptedString = AtbashDecrypt(decryptedString);
         }
-
+        System.out.println("Decrypted: " + decryptedString);
         return decryptedString;
     }
 
