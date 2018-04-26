@@ -222,19 +222,19 @@ public class Decrypt {
         boolean needToGetDigit = true;
         char returnDigit = ' ';
         int iterationNumber = 0;
-//        while (needToGetDigit) {
-//            for (int i = numberList.size() - 1; i >= 0; i--) {
-//                String value = (String) numberList.get(i);
-//                if ((i < numericalValue && numberAsString.length() == value.length() && iterationNumber == 0) ||
-//                        (value.length() == numberAsString.length() && iterationNumber != 0)) {
-//                    int encryptedDigit = i;
-//                    returnDigit = (char) (encryptedDigit + '0');
-//                    needToGetDigit = false;
-//                    break;
-//                }
-//            }
-//            iterationNumber++;
-//        }
+        while (needToGetDigit) {
+            for (int i = numberList.size() - 1; i >= 0; i--) {
+                String value = (String) numberList.get(i);
+                if ((i < numericalValue && numberAsString.length() == value.length() && iterationNumber == 0) ||
+                        (value.length() == numberAsString.length() && iterationNumber != 0)) {
+                    int encryptedDigit = i;
+                    returnDigit = (char) (encryptedDigit + '0');
+                    needToGetDigit = false;
+                    break;
+                }
+            }
+            iterationNumber++;
+        }
         return returnDigit;
     }
 

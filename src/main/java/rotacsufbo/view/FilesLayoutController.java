@@ -70,6 +70,15 @@ public class FilesLayoutController {
             System.out.println(dst.getName() + " AND " + decryptor.getName());
             if (dst.getName().equals(decryptor.getName())) {
                 // don't do more obfs
+                try {
+                    CompilationUnit unit = JavaParser.parse(f);
+                    Obfuscator obfuscator = new Obfuscator(unit);
+                    obfuscator.flatten();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
 
                 try {

@@ -111,12 +111,12 @@ public class StartLayoutController implements Initializable{
                 try {
 
 
-                    CompilationUnit unit = JavaParser.parse(decryptor);
-                    Obfuscator obfuscator = new Obfuscator(unit);
-                    obfuscator.flatten();
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(decryptor));
-                    writer.write(obfuscator.getUnit().toString());
-                    writer.close();
+//                    CompilationUnit unit = JavaParser.parse(decryptor);
+//                    Obfuscator obfuscator = new Obfuscator(unit);
+//                    obfuscator.flatten();
+//                    BufferedWriter writer = new BufferedWriter(new FileWriter(decryptor));
+//                    writer.write(obfuscator.getUnit().toString());
+//                    writer.close();
 
                     // At this point, the Decryptor is obfuscated.
 
