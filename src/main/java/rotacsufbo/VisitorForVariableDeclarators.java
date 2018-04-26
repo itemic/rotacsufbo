@@ -24,14 +24,20 @@ public class VisitorForVariableDeclarators extends VoidVisitorAdapter<Object> {
             if (init.isPresent()) {
                 String originalString = n.getInitializer().get().toString();
                 System.out.println("init: " + originalString);
-                originalString = originalString.substring(1, originalString.length()-1);
 
-                String encryptedString = Encrypt.encryptAll(originalString); // here we encrypt it with sejal
+                if (originalString.charAt(0) == '"' && originalString.charAt(originalString.length()-1) == '"') {
+                    originalString = originalString.substring(1, originalString.length()-1);
+
+                    String encryptedString = Encrypt.encryptAll(originalString); // here we encrypt it with sejal
 
 
-                System.out.println("Decrypt.decrypt(\"" + encryptedString + "\")");
+                    System.out.println("Decrypt.decrypt(\"" + encryptedString + "\")");
 
-                n.setInitializer(JavaParser.parseExpression("Decrypt.decrypt(\"" + encryptedString + "\")"));
+                    n.setInitializer(JavaParser.parseExpression("Decrypt.decrypt(\"" + encryptedString + "\")"));
+                }
+
+
+
             }
 
 

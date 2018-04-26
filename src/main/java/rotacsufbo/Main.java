@@ -9,9 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import rotacsufbo.view.StartLayoutController;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class Main extends Application{
@@ -39,8 +37,6 @@ public class Main extends Application{
 //                e.printStackTrace();
 //            }
 //        }
-
-
         launch(args);
     }
 

@@ -25,22 +25,36 @@ public class VisitorForMethodCallExpressions extends VoidVisitorAdapter<Object>{
             if (ex.isStringLiteralExpr()) {
                 System.out.println(ex);
                 StringLiteralExpr sle = (StringLiteralExpr)ex;
-                String original = ex.toString().substring(1, ex.toString().length()-1);
-                String encrypted = Encrypt.encryptAll(original); //sejal
-                String decryptionExpression = "Decrypt.decrypt(\"" + encrypted + "\")";
-                System.out.println("dec:" + decryptionExpression);
-                System.out.println("Decrypted: " + Decrypt.decrypt(encrypted));
-                System.out.println("Decrypt.decrypt(\"" + encrypted + "\")");
-                ex.replace(JavaParser.parseExpression(decryptionExpression));
+                if (ex.toString().charAt(0) == '"' && ex.toString().charAt(ex.toString().length()-1) == '"') {
+
+                    String original = ex.toString().substring(1, ex.toString().length()-1);
+                    String encrypted = Encrypt.encryptAll(original); //sejal
+                    String decryptionExpression = "Decrypt.decrypt(\"" + encrypted + "\")";
+                    System.out.println("dec:" + decryptionExpression);
+                    System.out.println("Decrypted: " + Decrypt.decrypt(encrypted));
+                    System.out.println("Decrypt.decrypt(\"" + encrypted + "\")");
+                    ex.replace(JavaParser.parseExpression(decryptionExpression));
+                } else {
+                    System.out.println("Skipping over " + ex.toString());
+                }
+
             } // add elseif int
 
             List<Node> nodes = ex.getChildNodes();
             for (int i = 0; i < nodes.size(); i++) {
                 if (nodes.get(i) instanceof StringLiteralExpr) {
                     String original = nodes.get(i).toString();
-                    original = original.substring(1, original.length()-1);
-                    String encrypted = Encrypt.encryptAll(original);
-                    nodes.get(i).replace(JavaParser.parseExpression("Decrypt.decrypt(\"" + encrypted + "\")"));
+                    if (original.charAt(0) == '"' && original.charAt(original.length()-1) == '"') {
+                        original = original.substring(1, original.length()-1);
+                        String encrypted = Encrypt.encryptAll(original);
+                        nodes.get(i).replace(JavaParser.parseExpression("Decrypt.decrypt(\"" + encrypted + "\")"));
+                    } else {
+                        System.out.println("Skipping over " + original);
+                    }
+
+
+
+
                 }
             }
         }
