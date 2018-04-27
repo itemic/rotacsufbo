@@ -37,7 +37,7 @@ public class OpaquePredicates {
         } else {
             rand = ThreadLocalRandom.current().nextInt(0, 10) * 2 + 1; // pair with 2/3
             // name.get(rand) % name.get(2) =? name.get(3);
-            s = name + "[" + rand + "] % " + name + "[22] == " + name + "[23]";
+            s = name + "[" + rand + "] % " + name + "[22] != " + name + "[20]";
         }
 
         return JavaParser.parseExpression(s);
@@ -62,7 +62,7 @@ public class OpaquePredicates {
         } else {
             rand = ThreadLocalRandom.current().nextInt(0, 10) * 2 + 1; // pair with 2/3
             // name.get(rand) % name.get(2) =? name.get(3);
-            s = name + "[" + rand + "] % " + name + "[22] != " + name + "[23]";
+            s = name + "[" + rand + "] % " + name + "[22] == " + name + "[20]";
         }
 
         return JavaParser.parseExpression(s);

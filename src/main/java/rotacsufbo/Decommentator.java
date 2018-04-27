@@ -18,7 +18,6 @@ public class Decommentator extends VoidVisitorAdapter<Object>{
         super.visit(n, args);
         List<Node> childNodes = n.getChildNodes();
         kill(childNodes); // visit and go through nodes to add them to list to remove
-        System.out.println("A custom string" + n.toString());
         for (Node child: nodeCollection) {
             child.remove(); // remove the nodes that have been collected
         }

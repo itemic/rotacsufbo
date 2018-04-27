@@ -30,8 +30,6 @@ public class VisitorForVariableDeclarators extends VoidVisitorAdapter<Object> {
 
                     String encryptedString = Encrypt.encryptAll(originalString); // here we encrypt it with sejal
 
-                    System.out.println("Decrypt.decrypt(\"" + encryptedString + "\")");
-
                     n.setInitializer(JavaParser.parseExpression("Decrypt.decrypt(\"" + encryptedString + "\")"));
                 }
 
