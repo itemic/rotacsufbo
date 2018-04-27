@@ -35,9 +35,9 @@ public class OpaquePredicates {
             // can expand to more statement types
              s = name + "[" + rand + "] % " + name + "[20] == " + name + "[21]";
         } else {
-            rand = ThreadLocalRandom.current().nextInt(0, 10) * 2;
+            rand = ThreadLocalRandom.current().nextInt(0, 10) * 2 + 1; // pair with 2/3
             // name.get(rand) % name.get(2) =? name.get(3);
-            s = name + "[" + rand + "] % " + name + "[20] != " + name + "[24]";
+            s = name + "[" + rand + "] % " + name + "[22] == " + name + "[23]";
         }
 
         return JavaParser.parseExpression(s);
@@ -60,9 +60,9 @@ public class OpaquePredicates {
             // can expand to more statement types
             s = name + "[" + rand + "] % " + name + "[20] != " + name + "[21]";
         } else {
-            rand = ThreadLocalRandom.current().nextInt(0, 10) * 2; // pair with 2/3
+            rand = ThreadLocalRandom.current().nextInt(0, 10) * 2 + 1; // pair with 2/3
             // name.get(rand) % name.get(2) =? name.get(3);
-            s = name + "[" + rand + "] % " + name + "[20] == " + name + "[24]";
+            s = name + "[" + rand + "] % " + name + "[22] != " + name + "[23]";
         }
 
         return JavaParser.parseExpression(s);
@@ -81,8 +81,8 @@ public class OpaquePredicates {
 
         int modBy1 = 7; // mod by
         int remainder1 = 5; // remainder
-        int modBy2 = 8;
-        int remainder2 = 6;
+        int modBy2 = 7;
+        int remainder2 = 5;
 
 
         boolean flag = true;
