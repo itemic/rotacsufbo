@@ -11,6 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class OpaquePredicates {
 
+//    private ArrayList<Integer> opaques;
     private int[] opaques;
     //element 0, 1 form a pair, 2, 3 form a pair IE = [0] mod [1], [2] mod [3]
 
@@ -30,9 +31,12 @@ public class OpaquePredicates {
         if (b) {
             // EVEN
             rand = ThreadLocalRandom.current().nextInt(0, 10) * 2; //pair with 0/1
+            // name.get(rand) % name.get(0) =? name.get(1);
+            // can expand to more statement types
              s = name + "[" + rand + "] % " + name + "[20] == " + name + "[21]";
         } else {
             rand = ThreadLocalRandom.current().nextInt(0, 10) * 2 + 1; // pair with 2/3
+            // name.get(rand) % name.get(2) =? name.get(3);
             s = name + "[" + rand + "] % " + name + "[22] != " + name + "[20]";
         }
 
@@ -52,9 +56,12 @@ public class OpaquePredicates {
         if (b) {
             // EVEN
             rand = ThreadLocalRandom.current().nextInt(0, 10) * 2; //pair with 0/1
+            // name.get(rand) % name.get(0) =? name.get(1);
+            // can expand to more statement types
             s = name + "[" + rand + "] % " + name + "[20] != " + name + "[21]";
         } else {
             rand = ThreadLocalRandom.current().nextInt(0, 10) * 2 + 1; // pair with 2/3
+            // name.get(rand) % name.get(2) =? name.get(3);
             s = name + "[" + rand + "] % " + name + "[22] == " + name + "[20]";
         }
 

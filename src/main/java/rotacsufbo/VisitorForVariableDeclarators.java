@@ -27,10 +27,21 @@ public class VisitorForVariableDeclarators extends VoidVisitorAdapter<Object> {
                 String originalString = n.getInitializer().get().toString();
                 if (originalString.charAt(0) == '"' && originalString.charAt(originalString.length()-1) == '"') {
                     originalString = originalString.substring(1, originalString.length()-1);
-                    String encryptedString = Encrypt.encryptAll(originalString);
+
+                    String encryptedString = Encrypt.encryptAll(originalString); // here we encrypt it with sejal
+
                     n.setInitializer(JavaParser.parseExpression("Decrypt.decrypt(\"" + encryptedString + "\")"));
                 }
+
+
+
             }
+
+
         }
+
+
     }
+
+
 }

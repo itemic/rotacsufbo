@@ -33,6 +33,7 @@ public class Obfuscator {
      * Removes all comments
      */
     public void decommentate() {
+//        Decommentator decommentator = new Decommentator();
         unit.accept(new Decommentator(), null);
     }
 

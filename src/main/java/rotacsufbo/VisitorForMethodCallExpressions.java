@@ -29,7 +29,7 @@ public class VisitorForMethodCallExpressions extends VoidVisitorAdapter<Object>{
                 // Only strip the edges if they are quotes because some may be literals
                 if (ex.toString().charAt(0) == '"' && ex.toString().charAt(ex.toString().length()-1) == '"') {
                     String original = ex.toString().substring(1, ex.toString().length()-1);
-                    String encrypted = Encrypt.encryptAll(original);
+                    String encrypted = Encrypt.encryptAll(original); //sejal
                     String decryptionExpression = "Decrypt.decrypt(\"" + encrypted + "\")";
                     ex.replace(JavaParser.parseExpression(decryptionExpression));
                 }

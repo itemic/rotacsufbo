@@ -111,7 +111,8 @@ public class StartLayoutController implements Initializable{
                     // Copy the whole source directory to new place where we overwrite
                     FileUtils.copyDirectory(sourceFileOrDirectory, destinationFileOrDirectory);
 
-                    // FXML GUI loading code
+
+
                     FXMLLoader loader = new FXMLLoader();
                     loader.setLocation(Main.class.getResource("view/FilesLayout.fxml"));
                     BorderPane filesPane = (BorderPane)loader.load();
@@ -123,8 +124,11 @@ public class StartLayoutController implements Initializable{
                     e.printStackTrace();
                 }
 
+
+
             }
         }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

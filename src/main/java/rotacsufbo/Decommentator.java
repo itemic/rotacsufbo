@@ -24,10 +24,6 @@ public class Decommentator extends VoidVisitorAdapter<Object>{
 
     }
 
-    /**
-     * Iterate through node list to prepare them from removal
-     * @param nodes
-     */
     private void kill(List<Node> nodes) {
         for(Node node: nodes) {
             kill(node);
