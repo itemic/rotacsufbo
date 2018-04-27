@@ -16,7 +16,7 @@ public class VisitorForAssignExpressions extends VoidVisitorAdapter<Object> {
             String originalString  = n.getValue().toString();
             if (originalString.charAt(0) == '"' && originalString.charAt(originalString.length()-1) == '"') {
                 originalString = originalString.substring(1, originalString.length()-1);
-                String encryptedString = Encrypt.encryptAll(originalString) ; // sejal
+                String encryptedString = Encrypt.encryptAll(originalString);
                 n.setValue(JavaParser.parseExpression("Decrypt.decrypt(\"" + encryptedString + "\")"));
             }
 

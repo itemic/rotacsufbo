@@ -42,7 +42,6 @@ public class FilesLayoutController {
 
     @FXML
     void finish(ActionEvent event) {
-
     }
 
     @FXML
@@ -67,8 +66,6 @@ public class FilesLayoutController {
         ArrayList<String> shortenedFiles = new ArrayList<>();
         for (File f : fe.getFiles()) {
             shortenedFiles.add(f.toString().substring(dst.toString().length()));
-            // OBFUSCATE HERE:
-
             System.out.println(f.getName() + " AND " + decryptor.getName());
             if (f.getName().equals(decryptor.getName())) {
                 // Control-flow flatten and remove comments from the decryptor
@@ -86,9 +83,7 @@ public class FilesLayoutController {
                     e.printStackTrace();
                 }
             } else {
-
                 try {
-
                     // Use all possible methods on any other files
                     CompilationUnit unit = JavaParser.parse(f);
                     Obfuscator obfuscator = new Obfuscator(unit);
@@ -125,7 +120,6 @@ public class FilesLayoutController {
                     }
 
                     codeTextArea.setText(sb.toString());
-
 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();

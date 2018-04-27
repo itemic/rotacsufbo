@@ -23,7 +23,6 @@ public class Encrypt {
 
         String encrypted = inputText;
 
-//        decision = 2;
         if (decision == 0) {
             // OTP
             encrypted = oneTimePadEncrypt(inputText, "nrhavqujcmmxmgoelveslhxnfdzabzsqmbmmlrvrmhzriptiaz");

@@ -141,7 +141,7 @@ public class Flattener {
                 switchEntries.add(switchEntry);
             }
 
-//             Add random switch statements to be distracting, but not too much to increase size
+            // Add random switch statements to be distracting, but not too much to increase size
             int statementCount = statements.get(methods.indexOf(m)).size() / 2;
             for (int rng = 0; rng < statementCount; rng++) {
                 SwitchEntryStmt entryStmt = new SwitchEntryStmt();
