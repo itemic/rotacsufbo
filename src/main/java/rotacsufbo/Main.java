@@ -21,16 +21,8 @@ public class Main extends Application{
     private static BorderPane rootLayout;
 
     public static void main(String[] args) {
-        File f = new File("C:\\Users\\Terran\\IdeaProjects\\Bepis\\src\\Main.java");
-        try {
-            CompilationUnit c = JavaParser.parse(f);
-            Obfuscator o = new Obfuscator(c);
-            o.flatten();
-//            System.out.println(o.getUnit());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-//        launch(args);
+
+        launch(args);
     }
 
 
