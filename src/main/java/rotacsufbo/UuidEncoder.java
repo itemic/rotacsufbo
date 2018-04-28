@@ -15,7 +15,7 @@ public class UuidEncoder {
     public static String uuidEncode(String original) {
         String words = "abcdef1234567890-";
         String encryptedOddy = "੦૦௦౦೦๐໐၀ｏℴⲟоჿօ০〇ዐⵔ";
-
+        System.out.println("wow");
         ArrayList<String> from = new ArrayList<>(Arrays.asList(words.split("")));
         ArrayList<String> to = new ArrayList<>(Arrays.asList(encryptedOddy.split("")));
         ArrayList<String> orig = new ArrayList<>(Arrays.asList(original.split("")));

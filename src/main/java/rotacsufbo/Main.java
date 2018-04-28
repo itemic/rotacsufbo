@@ -20,9 +20,22 @@ public class Main extends Application{
     private Stage primaryStage;
     private static BorderPane rootLayout;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         launch(args);
+
+        // Uncomment this to oneline files.
+//        File f = new File("C:\\Users\\Terran\\Projects\\FindFood");
+//        FileExplorer fe = new FileExplorer();
+//        fe.traverseFolder(f);
+//        for (File file: fe.getFiles()) {
+//            String oneLined = LayoutObfuscator.intoALine(file);
+//
+//            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+//            writer.write(oneLined);
+//            writer.close();
+//        }
+
     }
 
 

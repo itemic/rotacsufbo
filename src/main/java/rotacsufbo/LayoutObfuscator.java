@@ -13,7 +13,7 @@ public class LayoutObfuscator {
      * @return
      * @throws IOException
      */
-    public String intoALine(File javaSource) throws IOException {
+    public static String intoALine(File javaSource) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(javaSource));
         StringBuilder oneLineFile = new StringBuilder();
         String line;
