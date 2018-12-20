@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rotacsufbo.view.HomeLayoutController">
+   <top>
+      <ImageView fx:id="imageView" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+          <!--<Image url="@/logo.png" />-->
+      </ImageView>
+   </top>
+   <center>
+      <VBox fx:id="dragTarget" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: aliceblue;" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="dragLabel" text="Drag files to obfuscate...">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font></Label>
+         </children>
+      </VBox>
+   </center>
+   <bottom>
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+        <buttons>
+          <Button mnemonicParsing="false" style="-fx-background-color: aliceblue; -fx-background-radius: 10;" text="Obfuscate!">
+              </Button>
+        </buttons>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </ButtonBar>
+   </bottom>
+</BorderPane>

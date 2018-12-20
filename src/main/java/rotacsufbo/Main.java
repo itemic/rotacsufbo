@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import rotacsufbo.view.HomeLayoutController;
 import rotacsufbo.view.StartLayoutController;
 
 import java.io.*;
@@ -45,6 +46,8 @@ public class Main extends Application{
         this.primaryStage.setTitle("Rotacsufbo");
         initLayout();
         showStartScreen();
+        // replace showStartScreen with showHomeScreen to test out new menu
+//        showHomeScreen();
 
     }
 
@@ -56,6 +59,18 @@ public class Main extends Application{
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showHomeScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("view/HomeLayout.fxml"));
+            BorderPane startLayout = loader.load();
+            HomeLayoutController controller = loader.getController();
+            rootLayout.setCenter(startLayout);
         } catch (IOException e) {
             e.printStackTrace();
         }

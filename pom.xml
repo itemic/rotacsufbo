@@ -43,6 +43,14 @@
                     </include>
                 </includes>
             </resource>
+            <resource>
+                <directory>src/assets</directory>
+                <includes>
+                    <include>
+                        **/*.png
+                    </include>
+                </includes>
+            </resource>
         </resources>
     </build>
     
