@@ -21,7 +21,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="9">
-      <module name="Rotacsufbo" target="1.9" />
+      <module name="Rotacsufbo" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
